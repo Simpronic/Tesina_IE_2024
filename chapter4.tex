@@ -1,0 +1,535 @@
+\chapter{Regressione}
+Un modello regressivo permette di studiare una variabile come funzione di altre variabili.\\
+Abbiamo dunque:
+\begin{itemize}
+    \item \textbf{Variabile di risposta: } variabile stimata
+    \item \textbf{Variabili di predizione:} variabili usate per predire la risposta
+\end{itemize}
+Il modello regressivo lineare semplice assume la seguente forma:
+\begin{center}
+    $
+        Y = aX+b+Z
+    $
+\end{center}
+Z è una v.a che rappresenta l’errore sperimentale.\\
+L’obiettivo di questo homework è rilevare e stimare eventuali trend nelle variabili analizzate attraverso modelli regressivi lineari semplici, parametrici e non parametrici.
+\section{Mail server 1}
+Per il seguente esercizio, è stato applicato un modello regressivo lineare, per cui la risposta è una funzione lineare del predittore.
+Come è possibile notare nelle figure sottostanti, sono state eseguite le stime lineari delle variabili byte rec, byte sent e nmail rispetto alla variabile di predizione observation.
+E' possibile osservare nel riepilogo della stima l’R-quadro, ovvero il coefficiente di determinazione, che misura il legame tra la variabilità dei dati e la correttezza
+del modello statistico utilizzato.
+Con tutte e tre le variabili, è possibile osservare un valore molto basso dell'R-quadro, a dimostrazione del fatto che il modello lineare non è il più adatto per predire i dati
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_1/ByteSent1.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_1/ByteRec1.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_1/Nmail1.png}
+    \caption{grafici ByteSent,ByteRec,Nmail1}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Sono state analizzate poi le distribuzioni dei residui di byte
+rec, byte sent e nmail e in tutti e 3 i casi son presenti outliers che però sono relativi a dati di basso carico, per cui trascurabili nella nostra analisi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_1/ByteSent2.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_1/ByteRec2.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_1/Nmail2.png}
+    \caption{grafici ByteSent,ByteRec,Nmail1}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+In definitiva tutte e 3 le distribuzioni possono assumersi normali.
+Si procede ora alla visualizzazione dell’omoschedasticità dei residui e per fare questo, si analizzano i grafici di dispersione dei residui e si verifica  che non vi siano trend.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/Nmail5.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/ByteSent5.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/byteRic5.png}
+    \caption{dispersione residui Nmail, byte\_inviati, byte\_rec, }
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\noindent
+Come si può vedere dalle figure 4.3 questi ultimi sono omoschedas-
+tici dunque posso fare affidamento sul test parametrico classico che
+restituisce i seguenti risultati:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/nmail6.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/bytesent6.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/byteRec6.png}
+    \caption{intervalli di confidenza Nmail, byte\_inviati, byte\_rec, }
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\noindent
+
+Il test non riesce a rigettare l’ipotesi nulla sul coefficiente angolare. Ciò evidenzia l’assenza di un trend significativo
+
+\section{Mail server 2}
+Anche per il secondo esercizio, procediamo come in quello precedente.
+E' possibile osservare nel riepilogo della stima l’R-quadro, ovvero il coefficiente di determinazione, che misura il legame tra la variabilità dei dati e la correttezza
+del modello statistico utilizzato.
+Con tutte e tre le variabili, è possibile osservare un valore molto basso dell'R-quadro, a dimostrazione del fatto che il modello lineare non è il più adatto per predire i dati
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/ByteSent1.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/ByteRec1.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/Nmail1.png}
+    \caption{grafici ByteSent,ByteRec,Nmail1}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Sono state analizzate poi le distribuzioni dei residui di byte
+rec, byte sent e nmail e in tutti e 3 i casi son presenti che, a differenza dello scorso caso, non possono essere assunte come normali.
+Di conseguenza, è stato applicato un modello non parametrico.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/ByteSent2.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/ByteRec2.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/Nmail2.png}
+    \caption{distribuzione residui ByteSent,ByteRec,Nmail1}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Come modello regressivo non parametrico è stato scelto il test di Mann-
+Kendall, che non richiede che i dati siano normalmente distribuiti o lineari.\\
+In breve, l’analisi restituirà come risultato un coefficiente di correlazione $\tau$ che varia tra -1 e 1 e un p-value. Un valore negativo indica che le variabili sono inversamente correlate, ovvero che quando una variabile aumenta, l’altra
+diminuisce. I valori positivi indicano invece che quando una variabile aumenta,
+aumenta anche l’altra.
+Un p-value inferiore o uguale a 0,05 avrà come significato che il risultato ottenuto sarà
+statisticamente significativo per l’analisi e che l’ipotesi nulla H0, che afferma
+che non è presente un trend monotono nella distribuzione, è rifiutata.
+Sono riportati di seguito i 3 risultato per i test effettuati.
+
+\begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & ByteRec & -0.0316 & <0,0012\\
+        Time & ByteSent & -0.392 & <0,0001\\
+        Time & Nmail & -0.0242 & <0,0138\\
+        \hline
+    \end{tabular}
+\end{table}
+\noindent
+Dai dati raccolti risulta che, considerato il tasso di significatività standard
+pari a $\alpha$ = 0.05, nessuna variabile presenta un trend significativo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/ByteSent3.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/byteRec3.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Mail_server_2/Nmail3.png}
+    \caption{Test Kendall ByteSent,ByteRec,Nmail1}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+
+\section{VMStat}
+L’obiettivo è rilevare e stimare eventuali trend sulle 5 variabili utilizzando modelli regressivi lineari semplici, parametrici e/o non parametrici per i tre dataset os1, os2 e os3.
+Il significato dei parametri è il seguente:
+\begin{itemize}
+    \item \textbf{VmSize: }rappresenta l’uso della memoria virtuale dell’intero processo.
+    \item \textbf{VmData: }rappresenta la dimensione del segmento di dati del processo;
+    \item \textbf{Resident Set Size(RSS): }rappresenta la quantità di memoria fisica attualmente in uso dal processo.Il valore è rappresentato kB.
+\end{itemize}
+\subsection{VMStat-os1}
+Di seguito sono riportati i grafici delle analisi dei modelli lineari applicati ai dati.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os1/lin_VmSize.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os1/lin_VmData.png}
+    \caption{grafici VmSize e VmData}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Questi due grafici sono relativi ai parametri VmSize e VmData ed avendo loro una funzione costante a tratti non possono essere trattati con modelli lineari semplici.\\
+La rilevazione dei trend in questo caso deve procedere per test non parametrici come il \textbf{Mann-Kendall}.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os1/lin_byteletti_1.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os1/lin_byteLetti.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os1/lin_RSS.png}
+    \caption{grafici RSS,Byte letti,byte letti01}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Questi grafici suggeriscono che possiamo usare un modello lineare semplice, negli ultimi due casi però il modello non porta con se una grande percentuale di varianza come denunciato dal valore $R^2$ ed $R^2$ corretto.\\
+Per capire se possiamo sfruttare un test parametrico analizziamo i residui.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os1/res_byteletti_1.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os1/res_byteletti.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os1/res_RSS.png}
+    \caption{qq-plot RSS,Byte\_letti,byte\_$letti_{01}$}
+    \label{fig:residui}
+\end{figure}
+\noindent
+Gli outlier presenti sono relativi a dati di basso carico per cui trascurabili nella nostra analisi.\\
+In definitiva tutte e 3 le distribuzioni possono assumersi normali.\\
+Ora devo analizzare l'omoschedasticità dei residui, per fare questo analizzo i grafici di dispersione dei residui e verifico che non vi siano trend.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os1/disp_res_byteletti.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os1/disp_res_byteletti_01.png}
+    \caption{dispersione residui byte\_letti, byte\_$letti_{01}$}
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/Os1/disp_res_rss.png}
+    \caption{Dispersione residui RSS}
+    \label{fig:residui_non_omoschedastici}
+\end{figure}
+\noindent
+Come si può vedere dalle figure \ref{fig:residui_omoschedastici} questi ultimi sono omoschedastici dunque posso fare affidamento sul test parametrico classico che restituisce i seguenti risultati:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os1/parametri_byteletti.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os1/parametri_byteletti_01.png}
+    \caption{test parametri byte\_letti, byte\_letti\_01}
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\noindent
+Come si vede i parametri calcolati sono significativi per il parametro \textit{byte\_letti} perchè il test rigetta l'ipotesi nulla (che l'intervallo di confidenza contenga lo 0) per il coefficiente angolare che indica la presenza di un trend significativo, invece per il parametro \textit{byte\_letti01} il test non riesce a rigettare l'ipotesi nulla sul coefficiente angolare che evidenzia l'assenza di un trend significativo.\\
+Invece in relazione alla figura \ref{fig:residui_non_omoschedastici} i residui non sono omoschedastici dunque non possiamo usare un test parametrico come il t-test ma useremo anche qui il test di Mann-Kendall.\\
+Di seguito riportiamo i 3 risultati del test di Kendall:
+\begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & VmSize & 0.8076 & <,0001\\
+        Time & VmData & 0.8076 & <,0001\\
+        Time & RSS & 0.6827 & <,0001\\
+        \hline
+    \end{tabular}
+\end{table}
+\\
+Quindi la presenza di Trend è presente in tutti i parametri, in particolare il trend presente per RSS suggerisce il fatto che il sistema può raggiungere uno stato di saturazione della memoria poichè tale parametro rappresenta la porzione di memoria ccupata da un processo che è mantenuta nella memoria principale.\\
+Attraverso la procedura di Sen è stato possibile calcolare il coefficiente angolare in maniera più precisa restituiendo come coefficiente 0.0049 e come intercetta 42428.80 con una confidenza del 95\% e con il seguente intervallo [0.00488,0.00506].
+Stessa cosa si può eseguire per VmSize e VmData avendo per il primo coefficiente 0.0315 e intercetta 738854.39 e intervallo sempre al 95\% pari a [0.0307,0.0323], e per il secondo coefficiente 0.0315 e intercetta 670450.39 e intervallo [0.0307,0.0323].
+\subsection{VMStat-os2}
+Di seguito sono riportati i grafici delle analisi dei modelli lineari applicati ai dati.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os2/stim_VMData.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os2/stim_VMSize.png}
+    \caption{Stima lineare VmData e VmSize}
+    \label{fig:residui}
+\end{figure}
+\noindent
+Da questi primi grafici non rileviamo nessuna relazione lineare tra dati dunque per questi parametri verrà effettuato un test non parametrico di tipo Mann-Kendall.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os2/Stim_Rss.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os2/Stim_bytescritti.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os2/Stim_byteLetti.png}
+    \caption{Stima lineare ByteLetti,Rss e ByteScritti}
+    \label{fig:stimaLinBSL}
+\end{figure}
+\noindent
+Facendo riferimento a questi grafici \ref{fig:stimaLinBSL} possiamo rilevare una relazione lineare tra i dati però nel caso di \textit{Byte scritti} e di \textit{Rss}, come rilevabile dal valore di $R^2$ ed $R^2$ corretto il modello non spiega molta varianza.\\
+Per tali parametri si procede alla verifica dei residui.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os2/qq_plot_byteLetti.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os2/qq_plot_byteScritti.png}
+    \caption{qq-plot residui ByteLetti e ByteScritti}
+    \label{fig:qq-plot}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/Os2/qq_plot_nn_rss.png}
+    \caption{qq-plot dei residui RSS}
+    \label{fig:residui_non_normali}
+\end{figure}    
+\noindent
+Le code iniziali dei residui nei grafici \ref{fig:qq-plot} sono assocuati a dati di basso carico del sistema dunque possono essere non considerati dall'analisi, in definitiva possiamo considerare i residui normali.\\
+In riferimento alla figura \ref{fig:residui_non_normali} abbiamo deciso di non considerare la distribuzione dei residui normale e duque per Rss si procederà al test di Mann-Kendall.\\
+Per ByteLetti e ByteScritti dobbiamo verificare l'omoschedasticità dei residui.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/Os2/residui_disp_bletti.png}
+    \caption{Dispersione residui Byte letti }
+    \label{fig:residui_non_omoschedastici}
+\end{figure}
+\noindent
+Dalla figura \ref{fig:residui_non_omoschedastici} si può notare la non omoschedasticità dei residui quindi non possiamo rifarci al classico t-test e dunque bisogna procedere con il test di Mann-Kendall.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/Os2/disp_residui_b_scritti.png}
+    \caption{Dispersione residui Byte scritti }
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\noindent
+In riferimento alla figura \ref{fig:residui_omoschedastici} si può notare invece l'omoschedasticità dei residui quindi in questo caso possiamo rifarci al t-test classico, tale test restituisce il seguente risultato:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/Os2/test_bscritti.png}
+    \includegraphics[scale=0.4]{img/chap_4/Os2/test_rss.png}
+    \caption{Test parametri per byte scritti ed Rss}
+    \label{fig:test_bscritti}
+\end{figure}
+\noindent
+Il test a sinistra di figura \ref{fig:test_bscritti} non rigetta l'ipotesi nulla riguardo la pendenza indicando quindi l'assenza di trend significativi riguardo questo parametro mentre invece per il test a destra rileviamo un trend con parametri statisticamente significativi.\\
+Di seguito invece sono riportati i risultati dei test non parametrici.
+\begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & VmSize & 0.7065 & <,0001\\
+        Time & VmData & 0.7065 & <,0001\\
+        Time & RSS & 0.1788 & <,0001\\
+        \hline
+    \end{tabular}
+\end{table} \\
+Come si può osservare tutti e tre i test rigettano l'ipotesi nulla indicandoci la presenza di un trend nei dati.\\
+Per avere una stima più precisa del coefficiente si è proceduto ad applicare la procedura si Sen che ha restituito per Rss slope 0.00063 intercetta 42384.85 e intervallo al 95\% pari a [0.001,0.0007], per VmSize e VmData invece per il primo slope 0.00191 intercetta 735790.37 con intervallo [0.0,0.002] e per il secondo slope 0.0019 intercetta 667414.37 e intervallo [0.0,0.002].
+\newpage
+\subsection{VMStat-os3}
+Di seguito sono riportati i grafici delle analisi dei modelli lineari appli-
+cati ai dati.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/VMSize1.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/VMData1.png}
+    \caption{grafici VmSize e VmData}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+I grafici relativi al VmSize e VmData, avendo una funzione costante a tratti, non possono essere trattati con modelli lineari semplici.
+Per rilevare eventuali trend, si utilizzerà il test non parametrico di Mann-Kendall.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os3/ByteScrittiSec1.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os3/ByteLettiSec1.png}
+    \includegraphics[width=.25\textwidth]{img/chap_4/Os3/RSS1.png}
+    \caption{grafici RSS,Byte letti,byte letti01}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Per quanto riguarda questi RSS,ByteSent e ByteLetti, i grafici ci suggeriscono di usare un modello lineare. Per capire se è possibile effettuare un test parametrico, osserviamo i residui.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.30\textwidth]{img/chap_4/Os3/ByteScrittiSec2.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Os3/ByteLettiSec2.png}
+    \includegraphics[width=.30\textwidth]{img/chap_4/Os3/RSS2.png}
+    \caption{qq-plot RSS,Byte\_letti,byte\_letti01}
+    \label{fig:residui}
+\end{figure}
+\noindent
+Gli outlier presenti sono relativi a dati di basso carico per cui trascurabili nella nostra analisi.
+In definitiva tutte e 3 le distribuzioni possono assumersi normali.
+Si analizza ora l'omoschedasticità dei residui andando ad analizzare i grafici a dispersione dei residui per verificarne l'assenza di trend.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/ByteLetti4.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/ByteScritti4.png}
+    \caption{dispersione residui byte\_letti, byte\_$letti_01$}
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/Os3/RSS4.png}
+    \caption{Dispersione residui RSS}
+    \label{fig:residui_non_omoschedastici}
+\end{figure}
+\noindent
+Come si può vedere dalle figure 4.16 questi ultimi sono omoschedastici dunque posso fare affidamento sul test parametrico classico che
+restituisce i seguenti risultati:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/letti5.png}
+    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/Scritti5.png}
+    \caption{test parametri byte\_letti, byte\_scritti}
+    \label{fig:residui_omoschedastici}
+\end{figure}
+\noindent
+Come si vede i parametri calcolati il test
+non riesce a rigettare l’ipotesi nulla sui coefficienti angolari. Ciò evidenzia l’assenza di un trend significativo sui byte letti e scritti.
+Invece in relazione alla figura 4.17 i residui non sono omoschedastici
+dunque non possiamo usare un test parametrico come il t-test ma useremo anche qui il test di Mann-Kendall.
+Di seguito riportiamo i 3 risultati del test di Kendall:
+\begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & VmSize & 0.7832 & <,0001\\
+        Time & VmData & 0.7832 & <,0001\\
+        Time & RSS & 0.5938 & <,0001\\
+        \hline
+    \end{tabular}
+\end{table}
+\\
+Quindi la presenza di Trend è presente in tutti i parametri, in particolare il trend presente per RSS suggerisce il fatto che il sistema
+può raggiungere uno stato di saturazione della memoria poichè tale parametro rappresenta la porzione di memoria occupata da un processo
+che è mantenuta nella memoria principale.
+\section{Esercizio Predizioni}
+In questa sezione sono presentati 3 dataset i quali tengono traccia della quantità di heap allocata nel tempo e su cui è richiesto effettuare una analisi di tipo failure detection.\\
+I passi dunque saranno quelli di identificare un trend nel consumo dell'heap e qualora ci fosse un tren statisticamente significativo stimare il tempo in cui l'heap satura che in questo caso è il superamento della soglia di 1Gb.
+\textbf{OSS:} i dati in allocated heap sono rappresentati in byte
+\subsection{VMres1}
+Per questo primo dataset è stata effettuata una stima lineare che è possibile osservare nella successiva figura.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{img/chap_4/vmRes1/Stim_lin_VmRes.png}
+    \caption{Stima lineare allocated heap}
+    \label{fig:stim_lin_VmRes1}
+\end{figure}
+\noindent
+Dalla figura \ref{fig:stim_lin_VmRes1} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
+E' stata effettuata anche una analisi di normalità dei residui
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/vmRes1/qq_plot_VMres.png}
+    \caption{qq-plot residui heap}
+    \label{fig:qq_plot_VmRes1}
+\end{figure}
+Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
+\begin{table}[htbp]
+    \centering
+    \label{tab:Mann-kendall}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & Heap & 0.0700 & <,0001\\
+        \hline
+    \end{tabular}
+\end{table}
+\\
+Come si può vedere dalla tabella \ref{tab:Mann-kendall} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
+Per le suddette stime si fa uso della procedura di Theil-Sen che ci restituisce la seguente espressione:
+\begin{center}
+   AllocatedHeap(t) = $0.69t + 6.5*10^6$
+   \label{eq:alloc_heap}
+\end{center}
+Tale espressione ha come valore di coefficiente angolare una confidenza del 95\% e un intervallo di confidenza pari a [0.564,0.818].\\
+Dall'equazione \ref{eq:alloc_heap} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
+\begin{center}
+    $
+    10^9 = 0.69t+6.5*10^6
+    $\\
+\end{center}
+Da cui 
+\begin{center}
+    $
+    t \approx 45.6$ anni
+\end{center}
+\newpage
+\subsection{VMres2}
+
+Per questo secondo dataset è stata effettuata una stima lineare che è possibile osservare nella successiva figura.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{img/chap_4/vmRes2/Res1.png}
+    \caption{Stima lineare allocated heap}
+    \label{fig:stim_lin_VmRes1}
+\end{figure}
+\noindent
+Dalla figura \ref{fig:stim_lin_VmRes1} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
+E' stata effettuata anche una analisi di normalità dei residui
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/vmRes2/Res2.png}
+    \caption{qq-plot residui heap}
+    \label{fig:qq_plot_VmRes1}
+\end{figure}
+Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
+\begin{table}[htbp]
+    \centering
+    \label{tab:Mann-kendall}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & Heap & 0.1378 & <,0001\\
+        \hline
+    \end{tabular}
+\end{table}
+\\
+Come si può vedere dalla tabella \ref{tab:Mann-kendall} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
+Per le suddette stime si fa uso della procedura di Theil-Sen che ci restituisce la seguente espressione:
+\begin{center}
+   AllocatedHeap(t) = $0.67t + 5.7*10^6$
+   \label{eq:alloc_heap}
+\end{center}
+Tale espressione ha come valore di coefficiente angolare una confidenza del 95\% e un intervallo di confidenza pari a [0.605,0.737].\\
+Dall'equazione \ref{eq:alloc_heap} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
+\begin{center}
+    $
+    10^9 = 0.67t+5.7*10^6
+    $\\
+\end{center}
+Da cui 
+\begin{center}
+    $
+    t \approx 47,0$ anni
+\end{center}
+
+\subsection{VMres3}
+Per questo terzo dataset è stata effettuata una stima lineare che è possibile osservare nella successiva figura.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{img/chap_4/vmRes3/Res1.png}
+    \caption{Stima lineare allocated heap}
+    \label{fig:stim_lin_VmRes1}
+\end{figure}
+\noindent
+Dalla figura \ref{fig:stim_lin_VmRes1} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
+E' stata effettuata anche una analisi di normalità dei residui
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_4/vmRes3/Res2.png}
+    \caption{qq-plot residui heap}
+    \label{fig:qq_plot_VmRes1}
+\end{figure}
+Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
+\begin{table}[htbp]
+    \centering
+    \label{tab:Mann-kendall}
+    \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Time & Heap & 0.2031 & <,0001\\
+        \hline
+    \end{tabular}
+\end{table}
+\\
+Come si può vedere dalla tabella \ref{tab:Mann-kendall} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
+Per le suddette stime si fa uso della procedura di Theil-Sen che ci restituisce la seguente espressione:
+\begin{center}
+   AllocatedHeap(t) = $2.90t + 6.0*10^6$
+   \label{eq:alloc_heap}
+\end{center}
+Tale espressione ha come valore di coefficiente angolare una confidenza del 95\% e un intervallo di confidenza pari a [2.715,3.092].\\
+Dall'equazione \ref{eq:alloc_heap} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
+\begin{center}
+    $
+    10^9 = 2.90t+5.7*10^6
+    $\\
+\end{center}
+Da cui 
+\begin{center}
+    $
+    t \approx 0.01$ anni
+\end{center}

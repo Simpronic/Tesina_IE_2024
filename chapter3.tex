@@ -1,0 +1,174 @@
+\chapter{Benchmark}
+Usando il benchmark Nbody, il quale simula l'evoluzione di un sistema di N corpi, sotto l'influenza della forza gravitazionale eseguire analisi riguardo due sistemi.
+Il benchmark sopra citato stressa:
+\begin{itemize}
+    \item Sottosistma floating point
+    \item Chiamate ricorsive, e quindi stack
+\end{itemize}
+Le analisi verranno effettuate su due sistemi con lo stesso OS ma con differenti processori.
+\section{Attività di Benchmarking}
+\begin{center}
+    \textit{ A benchmark is the act of running a computer program, a set of programs, or other operations, in order to assess the relative performance of an object, normally by running a number of standard tests and trials against it}
+\end{center}
+In riferimento alla definizione di \textbf{Fleming, Philip J.; Wallace, John J} nell'articolo \textbf{How not to lie with statistics: the correct way to summarize benchmark results} il benchmark ci permette di confrontare due sistemi riguardo delle loro particolari componenti.\\
+Nel nostro caso il benchmark scelto permette di confrontare \textbf{FPU} e \textbf{stack}.
+\section{Analisi}
+L'obiettivo è dimostrare che i processori delle due macchine non provengono dalla stessa distribuzione poichè pure se appartenenti entrambe alla casa AMD un processore è \textit{desktop} e l'altro è \textit{laptop}.\\
+Il sistema operativo è il medesimo.\\
+Andremo dunque a definire le seguenti cose:
+\begin{itemize}
+    \item \textbf{Servizi:} esecuzione di calcoli matematici 
+    \item \textbf{Metrica:} tempo (in microsecondi) impiegato per terminare la simulazione
+    \item \textbf{Fattori:} Carico CPU, carico memoria ed eventuali attività da parte di altri componenti del sistema.
+    \item \textbf{Workload:} Numero di corpi utilizzati nella simulazione
+\end{itemize}
+Nel seguito sono riportate le specifiche dei due sistemi:
+\textbf{Sistema 1:}
+\begin{itemize}
+    \item \textbf{Processore: } AMD Ryzen 5 3500U
+        \begin{itemize}
+            \item Frequenza: 2.1GHz
+            \item Core: 4
+            \item Threads: 8
+            \item Cache: 4MB
+        \end{itemize}
+    \item \textbf{Memoria RAM: } 8 GB 1600 Mhz ddr4
+    \item \textbf{SO:} Windows 11 pro 
+\end{itemize}
+
+\textbf{Sistema 2:}
+\begin{itemize}
+    \item \textbf{Processore: } AMD Ryzen 5 2600x
+        \begin{itemize}
+            \item Frequenza: 3.6GHz
+            \item Core: 6
+            \item Threads: 12
+            \item Cache: 16MB
+        \end{itemize}
+    \item \textbf{Memoria RAM: } 16 GB 1600 Mhz ddr4
+    \item \textbf{SO:} Windows 11 pro 
+\end{itemize}
+\section{Prelievo dei campioni}
+Per il prelievo dei campioni si è seguito un processo che permettesse di raccogliere campioni indipendenti.\\
+Per fare ciò si è proceduto a spegnere ed accendere la macchina per svuotare strutture di memoria come RAM e cache.\\
+Tale operazione è stata eseguita 30 volte attraverso il seguente comando:
+\begin{center}
+    \textit{bash ./launch\_nbody.sh -r 4 -n*}
+\end{center}
+\textbf{r} indica il numero di ripetizioni che sono state fissate a 4 , dunque sono state raccolte 30 osservazioni indipendenti da 4 campioni ciascuna.\\
+Questo procedimento è stato effettuato per permettere poi di effettuare un test visivo attraverso un \textbf{qq-plot} della gaussianità della distribuzione dei campioni.\\
+\textbf{OSS: }Le osservazioni sono state raccolte in maniera indipendente ma verrà comunque dimostrata l'indipendenza attraverso i diagrammi.\\
+\subsection{Calcolo della sample size}
+Per capire se i campioni che sono stati prelevati sono sufficienti dobbiamo calcolare quella che è la \textbf{sample size} che ci indica se è possibile approssimare media e varianza del campione con la popolazione, tale calcolo lo effettuiamo per entrambi gli esperimenti.\\
+Abbiamo scelto un valore di errore rispetto alla media campionaria dello 1\% ed un intervallo di confidenza del 95\% per cui la nostra sample size è:\\
+\begin{center}
+    
+        $n = (\frac{z_{\frac{\alpha}{2}} \sigma}{E})^2$ //
+        $n_{1\_1} = (\frac{1.96*285}{40})^2 = 7$ //
+        $n_{2\_1} = (\frac{1.96*139}{36})^2 = 2$ //
+        $n_{1\_2} = (\frac{1.96*431}{140})^2 = 2$ //
+        $n_{2\_2} = (\frac{1.96*2036}{156})^2 = 22$ //
+    
+\end{center}
+Dal calcolo della sample size possiamo considerare il numero dei nostri campioni sufficienti per effettuare l'analisi.\\
+\section{Analisi dei dati}
+Per effettuare l'analisi delle prestazioni e confrontare i sistemi è stato usato il tool JMP.\\
+L'analisi effettuata è di tipo \textbf{paired} in quanto il numero di campioni per ogni osservazioni è lo stesso ed è la stessa anche la corrispondenza degli indici.\\
+Per dimostrare l'ipotesi che le osservazioni provengono da popolazioni diverse abbiamo due approcci:
+
+\begin{itemize}
+    \item \textbf{T-test(parametrico)}: applicabile se e solo se le due medie campionarie sono approssimativamente distribuite come una normale, ed essendo nel caso two-sample dobbiamo verificare anche l'uguale varianza.
+    \item \textbf{Test di Wilcoxon(non parametrico)}: non è richiesta la precedente ipotesi di normalità.Si analizzano le distribuzioni delle differenze campionarie al variare del tipo di sistema e fissando le dimensioni del workload.
+\end{itemize}
+Sono state effettuate due tipi di osservazioni, una con 25000 corpi e una con 10000 corpi per verificare i due sistemi con due carichi diversi.\\
+\subsection{Analisi a 25000}
+Di seguito sono presentati i due dataset e le analisi effettuate su di essi.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_3/Mariano_25K.png}
+    \includegraphics[width=.25\textwidth]{img/chap_3/Frank_25K.png}
+    \caption{Dati}
+    \label{fig:data}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_3/25k_mariano.png}
+    \caption{25000 corpi Sistema1}
+    \label{fig:sis_1_25_k}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_3/25k_francesco.png}
+    \caption{25000 corpi Sistema2}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Da una analisi visiva si può evincere che le osservazioni non eccedono le bande di confidenza e questo indicherebbe che queste ultime possono essere considerate derivanti da una distribuzione normale.\\
+Abbiamo provveduto al calcolo degli intervalli di confidenza delle due distribuzioni che sono riportati di seguito:\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.45\textwidth]{img/chap_3/f2.png}
+    \includegraphics[width=.45\textwidth]{img/chap_3/m2.png}
+    \caption{Intervalli di confidenza sistema1(sx) sistema2(dx)}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Come si può notare i due intervalli di confidenza non si sovrappongono indicando che i due sistemi sono statisticamente diversi.\\
+Per evincere ancora di più questa differenza è stato fatto un test sulle differenze(\textit{zero-mean test}):
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{img/chap_3/dif2.png}
+    \caption{zero-mean test 25K}
+    \label{fig:zero-mean}
+\end{figure}
+\noindent
+Come si può vedere l'intervallo di confidenza \ref{fig:zero-mean} non contiene lo zero avvalorando la tesi.
+\newpage
+\subsection{Analisi per 100000 corpi}
+Anche in questa sezione sono presentati i dati e le analisi effettuate su di essi.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.1\textwidth]{img/chap_3/Mariano_100K.png}
+    \includegraphics[width=.1\textwidth]{img/chap_3/Frank_100K.png}
+    \caption{Dati}
+    \label{fig:data_2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_3/100k_mariano.png}
+    \caption{100000 corpi Sistema1}
+    \label{fig:sis_1_100_k}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_3/100k_francesco.png}
+    \caption{100000 corpi Sistema2}
+    \label{fig:sis_2_100_k}
+\end{figure}
+\noindent
+Anche da queste analisi si può notare che le due distribuzioni possono essere assimilate come provenieneti da una distribuzione normale.\\
+Anche qui si è effettuato il calcolo degli intervalli di confidenza che sono i seguenti:\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.25\textwidth]{img/chap_3/f4.png}
+    \includegraphics[width=.25\textwidth]{img/chap_3/m4.png}
+    \caption{Intervalli di confidenza sistema1(sx) sistema2(dx)}
+    \label{fig:sis_2_25_k}
+\end{figure}
+\noindent
+Anche in questo caso i due intervalli di confidenza non si sovrappongono avvalorando il fatto che i due sistemi sono statisticamente diversi.\\
+Anche in questo caso è stato effettuato uno zero-mean test per avvalorare la tesi:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{img/chap_3/dif4.png}
+    \caption{zero-mean test 100K}
+    \label{fig:z_m2}
+\end{figure}
+\noindent
+Anche in questo caso, osservando l'intervallo di confidenza \ref{fig:z_m2} quest'ultimo non contiene lo zero avvalorando il fatto che i due sistemi sono diversi.
+\section{Conclusioni}
+I test effettuati sono settati su intervalli di confidenza del 95\% dunque siamo al 95\% sicuri che i due sistemi non siano equivalenti statisticamente.\\
+In particolare il sistema 1 ha una media più alta del sistema due sia nel caso di 25000 corpi che nel caso dei 100000 corpi, questo indicherebbe il fatto che il sistema 1 statisticamente esegue più lentamente del sistema 2.

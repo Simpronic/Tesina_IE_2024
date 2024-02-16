@@ -1,0 +1,399 @@
+\chapter{RBD}
+RBD sta per \textbf{Reliability Block Diagram} ed è una tecnica per modellare sistemi che sono \textbf{Non-state space}.\\
+Tali modelli ci permettono di ottenere una soluzione veloce attraverso l'assunzione che i componenti del sistema siano indipendenti.\\
+Dunque vediamo il sistema come una serie di componenti interconnessi tra loro e abbiamo informazioni riguardo:
+\begin{itemize}
+    \item Probabilità di fallimento
+    \item Failure rate
+    \item Una distribuzione del tempo al fallimento 
+    \item Stady state e istantanea unavailability
+\end{itemize}
+Le assunzioni di tale tecnica sono:
+\begin{itemize}
+    \item I failure nei moduli sono indipendenti
+    \item Se un modulo fallisce rimarrà nel suo stato di fallimento
+    \item Un sistema è fallito se non provvede ad un set minimo di moduli funzionali
+\end{itemize}
+Di sequito sono risolti degli esercizi riguardanti gli RBD.
+\section{Esercizio 1}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/Ex1.png}
+    \caption{Esercizio 1}
+    \label{fig:Ex_1}
+\end{figure}
+\noindent
+In prima analisi notiamo i primi collegamenti parallelo serie(denotiamo con || un parallelo e con - una serie), in particolare abbiamo \textbf{C1||C2} e \textbf{C5-C6}
+Da cui avremo:
+\begin{center}
+    $
+        R_{C1||C2} = 1−(1−R)(1R) = 1−(1−R)^2 
+        R_{C5-C6} = R^2
+    $
+\end{center} 
+Il nuovo schema sarà:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/Ex1_1.png}
+    \caption{Schema trasformato}
+    \label{fig:Ex_1_1}
+\end{figure}
+\noindent
+Non potendo identificare altre strutture serie o parallelo dobbiamo procedere con il teorema del condizionamento su C4.\\
+Per prima cosa possiamo ricavare un upper bound con la tecnica dei success path che sono:
+\begin{itemize}
+    \item C1||C2 \textminus{} C4
+    \item C3 \textminus{} C4
+    \item C3 \textminus{} (C5 \textminus{} C6)
+\end{itemize}
+Otteniamo dunque il seguente Upper-bound:
+\begin{center}
+    $
+        R_{sys} \leq 1-(1-R^2)^3(1-R^3)
+    $
+\end{center}
+Essendoci ricavati un upper bound possiamo procedere con l'analisi attraverso il condizionamento.\\
+Per il teorema del condizionamento ho:\\
+\begin{center}
+    $R_{sys}$ = $R*P$(sistema funziona | C è UP) $+ (1-R) \cdot $P(sistema funziona|C è DOWN)
+\end{center}
+Di seguito riportiamo i due schemi uno con C4 DOWN e l'altro con C4 UP.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/Ex_1_2.png}
+    \caption{C4 UP}
+    \label{fig:Ex_1_2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/Ex_1_3.png}
+    \caption{C4 DOWN}
+    \label{fig:Ex_1_3}
+\end{figure}
+\noindent
+Riguardo la figura \ref{fig:Ex_1_3} abbiamo C3-(C5-C6) che danno la seguente reliability:
+\begin{center}
+ P(sistema funziona | C è UP) =  $R^3$
+\end{center}
+Invece riguardo la figura \ref{fig:Ex_1_2} si può dimostrare, riapplicando il teorema del condizionamento che abbiamo il seguente risultato:\\
+\begin{center}
+    P(sistema funziona | C è UP) =  $1-(1-R)^3$
+\end{center}
+Andando a sostituire nella formula del teorema del condizionamento avrò:\\
+\begin{center}
+     $R_{sys}$ = $R[1-(1-R)^3] + R^3(1-R)$
+\end{center}
+Avendo un reliability di tipo esponenziale con failure rate $\lambda$, sostituendo ho:\\
+\begin{center}
+    $R_{sys}(t) = -2e^{-3\lambda t } + 3e^{-2\lambda t}$
+\end{center}
+Volendo calcolare l'MTTF avrò:
+\begin{center}
+    $
+        \int_0^{\infty} R_{sys}(t) dt = \frac{5}{6\lambda}
+    $
+\end{center}
+\section{Esercizio 2}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/Ex2.png}
+    \caption{Esercizio 2}
+    \label{fig:Ex_2}
+\end{figure}
+\noindent
+Da una prima analisi qualitativa si può notare che in termini di reliability il secondo sistema è più reliable del primo avendo un numero di \textbf{success path} maggiore.\\
+Il primo sistema è composto dal parallelo di \textit{m} catene composte da una serie di \textit{s} sistemi.\\
+In termini di reliability avremo per il primo sistema la seguente espressione di reliability:
+\begin{center}
+    $
+        R_{sys1} = [1-(1-R^s)^m]
+    $
+\end{center}
+Il secondo sistema invece è composto da una serie di \textit{s} paralleli di \textit{m} sottosistemi.\\
+Avremo dunque la seguente reliability:
+\begin{center}
+    $
+        R_{sys2} = [1-(1-R)^m]^s
+    $
+\end{center}
+Per i valori dell'esercizio avrò:
+\begin{center}
+    $
+    R_{sys1} = [1-(1-R^4)^2] 
+    R_{sys2} = [1-(1-R)^2]^4 
+    $
+\end{center}
+Per effettuare la comparazione tra i due sistemi dobbiamo fissare il failure rate $\lambda$ e consideriamo R = $e^{-\lambda t}$.
+Il parametro failure rate lo prendiamo dall'MTTF che è stato posto a 800h.
+Ricordando che MTTF = $\frac{1}{\lambda}$ nel particolare caso di reliability esponenziale, dunque $\lambda = \frac{1}{800h}$. 
+Di seguito riportiamo il plot della reliability in funzione del tempo:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/plt_rel.png}
+    \caption{plot reliability}
+    \label{fig:plt_rel}
+\end{figure}
+\noindent
+Dal grafico \ref{fig:plt_rel} si può notare che il sistema2, a prescindere dal valore del mission time, risulta essere drasticamente più reliable del primo.\\
+Se supponiamo un mission time di 350h possiamo notare che il primo sistema ha una reliability di circa il 32\% mentre il secondo di circa il 58\%.
+Fissato questo mission time per rendere equivalenti i due sistemi modificando il primo si può lavorare sul numero di catene \textit{m} imponendo la seguente equazione:
+\begin{center}
+    $
+    1-(1-R^4)^m = \frac{58}{100}
+    $
+\end{center}
+Da cui possiamo ottenere: 
++\begin{center}
+    $
+    m = \lceil \log_{1-\exp^{-\frac{4 \cdot 350}{800}}}(1-\frac{58}{100})\rceil = 5
+    $
+\end{center}
+Si può dimostrare che non si può agire sul parametro \textit{s} per migliorare lo schema.\\
+Di seguito si riporta l'andamento grafico che conferma circa l'equivalenza tra i due sistemi per un mission time di 300h. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/plt_rel_2.png}
+    \caption{plot confronto}
+    \label{fig:plt_rel2}
+\end{figure}
+\noindent
+
+\section{Esercizio 3}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/ex_3.png}
+    \caption{Esercizio 3}
+    \label{fig:ex_3}
+\end{figure}
+\noindent
+Come riportato dalla traccia, abbiamo una topologia skip-ring la quale è una topologia che ci permette il funzionamento anche in presenza di di fallimenti, in particolare la rete funziona se non falliscono due nodi adiacenti.\\
+Il sistema presentato può essere assunto come un sistema M-out-of-N, ovvero sistemi composti da N componenti, ciascuno con una certa reliability R, dei quali almeno M devono funzionare.\\
+La formula della reliability per questi sistemi è la seguente:
+\begin{center}
+    $
+    R_{MN} = \sum^{N-M}_{i=0} \binom{N}{i} \cdot R^{N-i} \cdot (1-R)^i
+    $
+\end{center}
+Per studiare questo caso però dobbiamo sottrarre i casi in cui la rete non funziona, e quindi assumere un certo numero di fallimenti ed enumerare le possibili combinazioni che portano al fallimenti di nodi adiacenti.\\
+Enumerando i vari casi si può vedere che per un numero di fallimenti i $\geq$ 5 la rete non funziona poichè c'è almeno una coppia di nodi adiacenti che non funziona.\\
+Enumerando le varie situazioni abbiamo le seguenti casistiche di reliability:
+\begin{itemize}
+    \item i = 0 se tutti i nodi funzionano correttamente, il sistema funziona ed avrò dunque:
+    \begin{center}
+        $
+        \binom{8}{0} \cdot R^{8} \cdot (1-R)^0 = R^8
+        $
+    \end{center}
+    \item i=1, se fallisce un solo nodo, il sistema continua a funzionare per la caratteristica della topologia, dunque avrò:
+        \begin{center}
+        $
+        \binom{8}{1} \cdot R^{7} \cdot (1-R)^1 = 8R^7 \cdot (1-R)
+        $
+        \end{center}
+    \item i = 2, in questo caso potremmo avere dei fallimenti se falliscono due nodi adiacenti. Si può vedere che le combinazioni possibili sono 8 enumerandole, allora avrò
+        \begin{center}
+        $
+        (\binom{8}{2}-8) \cdot R^{6} \cdot (1-R)^2 = 20R^6 \cdot (1-R)^2
+        $
+        \end{center}
+       \item i = 3 abbiamo due casi in cui il sistema non funziona
+       \begin{itemize}
+           \item falliscono 3 nodi adiacenti: 8 combinazioni di non funzionamento
+           \item falliscono 2 nodi adiacenti e 1 non adiacente: in tale caso abbiamo che ogni coppia di nodi adiacenti ha 4 nodi non adiacenti che possono fallire, dunque 8*4 combinazioni, ovvero 32 
+       \end{itemize}
+       Per cui:
+        \begin{center}
+        $
+        (\binom{8}{3}-(8+32)) \cdot R^{5}*(1-R)^3 = 16R^5 \cdot (1-R)^3
+        $
+        \end{center}
+    \item i = 4, in questo caso è utile valutare le condizione di funzionamento che quelle di malfunzionamento, in particolare le condizioni di funzionamento essendo 8 nodi, i nodi falliti devono alternarsi, in tale caso abbiamo solo due combinazioni di funzionamento, dunque:
+        \begin{center}
+        $
+        2 \cdot R^4(1-R)^4
+        $
+        \end{center}
+\end{itemize}
+La reliability del sistema è la somma di quelle sopra riportate.
+    \[
+        \resizebox{1\textwidth}{!}{$
+            R_{sys} = R^8+8R^7 \cdot (1-R)+20R^6 \cdot (1-R)^2+16R^5 \cdot (1-R)^3+2 \cdot R^4(1-R)^4
+        $}
+    \]
+Supponendo che la reliability di un singolo componente segua una legge esponenziale con $\lambda = 0.005$ e quindi la reliability di ogni nodo ha R=$e^{- \lambda t}$ posso calcolare la reliability per un mission time di 48 ore che sarà:
+\begin{center}
+    $
+    R_{sys}(48) = 0.73
+    $
+\end{center}
+Di seguito riportiamo anche il grafico della funzione di reliability del sistema
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/plt_skip.png}
+    \caption{Reliability skip-ring}
+    \label{fig:plt_skip}
+\end{figure}
+
+\section{Esercizio 4}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/ex_4.png}
+    \caption{Esercizio 4}
+    \label{fig:plt_skip}
+\end{figure}
+\subsection{Confronto 1}
+In termini di success path i due sistemi sono uguali (entrambe presentano 2 success path) ma eseguendo una analisi qualitativa se il sistema A fallisce nello schema di destra, l'intero sistema non funziona facendo dunque di A un single point of failure (SPOF).\\
+Eseguendo i calcoli avremo:
+\begin{center}
+    $
+    R_{sys1} = 1-(1-R_a \cdot R_b)(R_a \cdot R_c)
+    R_{sys2} = R_a \cdot [1-(1-R_b)(1-R_b)]
+    $
+\end{center}
+Ora possiamo particolarizzare per il valore di reliability che ci è stato fornito ricordando che MTTF = $\frac{1}{\lambda}$ e la reliability assume una occorrenza esponenziale, dunque $R=e^{-\lambda t}$.
+Avendo fatto le seguenti considerazioni i valori del failure rate saranno:
+\begin{itemize}
+    \item $\lambda_a = 0.002$
+    \item $\lambda_b = 0.00011$
+    \item $\lambda_a = 0.0001$
+\end{itemize}
+Di seguito riportiamo la reliability in funzione del mission time.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/plt_confr_1.png}
+    \caption{confronto tra i due sistemi}
+    \label{fig:cofr_sys}
+\end{figure}
+Come si può vedere dal grafico \ref{fig:cofr_sys} il primo sistema è sempre più reliable del secondo.
+\subsection{Confronto 2}
+In questo confronto si può notare che il primo ha più success path del secondo e quindi in prima analisi si potrebbe pensare che il primo sia più reliable del secondo.\\
+Però possiamo notare una prima cosa, i due sistemi presentano lo stesso SPOF che sarebbe A.\\
+Procedendo con una analisi grafica avremo le seguenti espressioni per i due sistemi:
+\begin{center}
+    $
+    R_{sys1} = R_a \cdot [1-(1-R_a)(1-R_b)]
+    R_{sys2} = R_a
+    $
+\end{center}
+Di seguito riportiamo il grafico della reliability dei due sistemi:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/plt_confr_2.png}
+    \caption{confronto tra i due sistemi}
+    \label{fig:cofr2_sys}
+\end{figure}
+\noindent
+Come si può vedere dal grafico \ref{fig:cofr2_sys} il primo sistema è di poco più reliable del secondo con i parametri di MTTF forniti.\\
+Quindi in termini di costo si potrebbe optare di usare più il sistema a destra rispetto che il sistema a sinistra che sicuramente costa di più.
+\subsection{Confronto 3}
+In questo caso abbiamo una situazione simile al secondo confronto poichè abbiamo due elementi serie comuni tra i due schemi.\\
+Il primo schema ha 2 success path quindi è candidato ad essere più reliable di quello a destra, però ci interessa capire se questa differenza è molto ampia o no.\\
+Di seguito riportiamo le espressioni dei due sistemi:
+\begin{center}
+    $
+    R_{sys1} = R_a R_b \cdot [1-(1-R_a)(1-R_b)]
+    R_{sys2} = R_a R_b
+    $
+\end{center}
+Di seguito riportiamo il grafico della reliability dei due sistemi:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_5/plt_confr_3.png}
+    \caption{confronto tra i due sistemi}
+    \label{fig:cofr3_sys}
+\end{figure}
+\noindent
+Anche in questo caso la differenza è poca quindi in termini di costo potrebbe essere più conveniente usare il sistema a destra poichè più economico sicuramente rispetto a quello di sinistra.
+\subsection{Confronto 4}
+Per quanto riguarda l'ultimo confronto si può vedere che il sistema di sinistra ha più success path di quello a destra e quindi possiano aspettarci una reliability più alta.\\
+D'altronde l'osservazione è anche intuitiva poichè il sistema di sinistra introduce ridondanza mentre quello di destra no.\\
+Procedendo in modo analitico avremo:
+\begin{center}
+    $
+    R_{sys1} = 1-(1-R_a)(1-R_a R_b)
+    R_{sys2} = R_a 
+    $ 
+\end{center}
+Di seguito riportiamo il grafico della reliability dei due sistemi:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/plt_confr_4.png}
+    \caption{confronto tra i due sistemi}
+    \label{fig:cofr4_sys}
+\end{figure}
+\noindent
+Come potevamo aspettarci la reliability del sistema a sinistra è molto migliore rispetto a quello a destra.
+\section{Esercizio 5}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/ex_5.png}
+    \caption{Esercizio 5}
+    \label{fig:ex_5}
+\end{figure}
+\noindent
+Del sistema in figura \ref{fig:ex_5} possiamo disegnare quello che è l'RBD caratterizzato dalla serie di tutti i componenti necessari al funzionamento del veivolo ed il parallelo delle repliche.\\
+Lo schema risultante sarà quello in figura \ref{fig:rbd_5}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/rbd_5.png}
+    \caption{RBD elicottero}
+    \label{fig:rbd_5}
+\end{figure}
+\noindent
+Di questo RBD possiamo calcolare la reliability complessiva del sistema:
+\begin{center}
+    $
+    R_{sys} = [1-(1-R_p)^2] \cdot [1-(1-R_t)^2] \cdot [1-(1-R_{busA})^2] \cdot [1-(1-R_{busB})^2] \cdot [1-(1-R_{INS})(1-R_D)(1-(1-R_{AHRS})^3]
+    $
+\end{center}
+Per effettuare l'FTA si è usato il tool \textbf{Top Event FTA} andando a modellare il sistema come un \textit{Fault Tree}.\\
+Il Fault tree è ottenibile dall'RBD andando a sostituire a tutti i paralleli delle porte OR e a tutte le serie delle porte AND.\\
+Facendo così otterremo il seguente schema:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_5/FTA_elicottero.png}
+    \caption{FT elicottero}
+    \label{fig:ft_elicottero}
+\end{figure}
+\noindent
+Usando l'algoritmo MOCUS per individuare i \textit{Minimal Cut Set}, ovvero insiemi minimali di sottoinsiemi il cui malfunzionamento causa il fallimento del sistema.\\
+In particolare quelli individuati sono i seguenti:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_5/minCutSet.png}
+    \caption{Minimal Cut Set}
+    \label{fig:cutSet}
+\end{figure}
+\noindent
+Ora è richiesto di calcolare la reliability per 1 ora di volo dati i valori di MTTF riportati in tabella e supponendo una distribuzione esponenziale assumendo una coverage iniziale perfetta.\\
+Secondo i valori riportati avremo:
+\begin{center}
+    $
+    R_{sys}(t=1h) = 0.9999999400737104
+    $
+\end{center}
+Per tale richiesta è stato anche disegnata la funzione di reliability del sistema.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_5/rel_graph.png}
+    \caption{reliability elicottero}
+    \label{fig:graph_rel}
+\end{figure}
+\noindent
+Come ultima parte si richiede di calcolare la reliability per un ora di volo considerando un fattore di coverage per la \textit{fault detection and reconfiguration} della processing unit.\\
+In particolare stiamo assumendo un processore \textit{spare} ovvero di ricambio, modifica la formula della reliability nel seguente modo:
+\begin{center}
+    $
+    R_{sys} = [R_p+c(1-R_p)R_p] \cdot [1-(1-R_t)^2] \cdot [1-(1-R_{busA})^2] \cdot [1-(1-R_{busB})^2] \cdot [1-(1-R_{INS})(1-R_D)(1-(1-R_{AHRS})^3]
+    $
+\end{center}
+Dobbiamo calcolare c tale che $R_{sys} \geq 0.99999$ per 1 ora di volo, risolvendo avremo almeno: 
+\begin{center}
+    $
+        c \simeq 0.91
+    $
+\end{center}

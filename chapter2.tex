@@ -1,0 +1,146 @@
+\chapter{PCA \& Clustering}
+In questo capitolo dell'elaborato effettueremo delle analisi di un workload utilizzando tecniche di analisi dati, ovvero PCA e clustering.
+In breve la PCA è una procedura statistica che ci permette di riassumere l'informazione contenuta in una grande tabella attraverso un insieme ristretto di indici sintetici facilmente visualizzabili.
+Invece il clustering ci permette di dividere dati non etichettati in insiemi differenti detti clusters attraverso una funzione di distanza.
+\section{Traccia}
+Dato un Workload reale, trovarne uno sintetico rispettando i seguenti requisiti: 
+
+\begin{itemize}
+    \item Trovare il miglior trade-off tra numero di componenti principali e numero di cluster
+    \item Effettuare una analisi di sensitività, osservando come la varianza cambia al variare di componenti principali e numero di cluster
+\end{itemize}
+\section{Filtering}
+Il primo passo effettuato è stato analizzare i dati grezzi su JMP per capire se si poteva effettuare un filtraggio.\\
+Questa analisi hs rivelato, come indica la figura \ref{fig:analisi_filtering} la presenza di colonne a varianza nulla.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_2/PCA_CLUSTERING_1.PNG}
+    \caption{Analisi colonne}
+    \label{fig:analisi_filtering}
+\end{figure}
+\noindent
+Per tale ragione, non essendo queste colonne portatrici di informazione, sono state eliminate dall'analisi.\\
+\textbf{Osservazione:} Quando si parla di eliminare una colonna si intende l'intenzione di non considerarle all'interno dell'analisi ma in fase di selezione del workoad queste ultime devono essere incluse.
+Dopo aver fatto una analisi sulle colonne, è stata eseguita una analisi anche riguardante le righe. 
+Attraverso l'istogramma frequentista della figura \ref{fig:AnalisiRighe1} sono stati rilevati i seguenti outlier:
+\begin{itemize}
+    \item \textbf{Riga 1}: con riferimento alla figura \ref{fig:AnalisiRighe1} outlier corrispondente a tutte le grandezze indicate, probabilmente legato ad una condizione di basso carico
+    \item \textbf{Righe 2-87}: con riferimento alla figura \ref{fig:AnalisiRighe2} outliers relativi ad una serie di parametri come la memoria (Mem-Free e Writeback). Tali outliers sono legati probabilmente ad una fase transitoria del sistema come l'accensione.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_2/Outlier_PCA.PNG}
+    \caption{Istogramma frequentista 1}
+    \label{fig:AnalisiRighe1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_2/righe_escluse.PNG}
+    \caption{Istogramma frequentista 2}
+    \label{fig:AnalisiRighe2}
+\end{figure}
+\noindent
+Le righe sopracitate sono state eliminate dall'analisi.\\
+Da questa procedura di filtering otteniamo un dataset filtrato sul quale effettuare delle analisi.
+\section{PCA}
+Come detto nell'introduzione, la PCA è una tecnica che effettua una trasformazione generando quelle che si chiamano componenti principali che sono in numero pari alle componenti sulle quali abbiamo effettuato la trasfomazione.\\
+Poichè la PCA tiene conto della varianza ci permette di selezionare alcune di queste componenti per ridurre la dimensionalità.\\
+Tale analisi viene svolta tramite l'uso di JMP e fornisce i seguenti output: 
+\begin{itemize}
+    \item \textbf{Loading Plot:} Mostra una matrice  di rappresentazione bidimensionale dei fattori di carico. Tale grafico ci permette di osservare che se due variabili sono simili, sono rappresentate molto vicine tra loro.
+    \item \textbf{Score Plot:} mostra una matrice di dispersione per coppie di componenti principali, dunque spiega come si distribuiscono gli elementi in base alle due componenti selezionate.
+    \item \textbf{Diagramma a barre:} mostra la varianza conservata da ogni componente principale.
+\end{itemize}
+Di seguito riportiamo tali plot:\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_2/PCA_CLUSTERING_2.PNG}
+    \caption{output PCA}
+    \label{fig:Plot_PCA}
+\end{figure}
+\noindent
+Analizzando più da vicino gli autovalori avremo la seguente situazione:
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/chap_2/Osservazione_PCA_Clustering.PNG}
+    \caption{Autovalori con varianza}
+    \label{fig:Osservazione}
+\end{figure}
+\noindent
+Possiamo notare che gli autovalori dal 18 al 20 può sembrare non spieghino varianza, in realtà aumentando i decimali relativi alla percentuale cumulativa possiamo renderci conto che spiegano varianza, ma è molto piccola.\\
+Tale osservazione è visibile nella figura \ref{fig:Osservazione}
+Da questa figura ci rendiamo conto che solo il 20 difatto non spiega varianza.
+Inoltre abbiamo fatto PCA su 21 dimensioni ma ci ritroviamo solo 20 autovalori.\\
+Questo è dovuto ad una correlazione tra \textbf{MemFree} e \textbf{WriteBack}, tale correlazione è evidenziata dalla matrice di correlazione di figura \ref{fig:MatriceDiOsservazione}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_2/PCA_CLUSTERING_4.PNG}
+    \caption{Matrice di correlazione}
+    \label{fig:MatriceDiOsservazione}
+\end{figure}
+\section{Clustering}
+Dopo aver effettuato l'estrazione delle componenti principali, il prossimo passo da effettuare è quello dell'operazione di clustering. In particolare, il clustering scelto è quello di tipo gerarchico utilizzando come criterio il Metodo di Ward, in modo tale da formare "cluster" in cui le somiglianze tra gli elementi siamo massime e quindi minimizzare la varianza totale all'interno di ogni cluster.
+Oltre a minimizzare questa varianza, si vuole anche andare a massimizzare la varianza intercluster, cioè quella tra elementi appartenenti a cluster differenti.
+L'output di questa fase è un dendogramma simile a quello di figura \ref{fig:dendogramma}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_2/PCA_CLUSTERING_5.PNG}
+    \caption{output Clustering}
+    \label{fig:dendogramma}
+\end{figure}
+\subsection{PCA \& clustering con 4 componenti}
+Andando ad effettuare la clusterizzazione con 4 componenti principali, la quantità di varianza che varia in base al numero di cluster scelti è la seguente:
+\begin{itemize}
+  \item \textbf{5 Cluster:} Varianza pari a 63.96 \% con una perdita del 17,044\% rispetto alla varianza post PCA di 81.004\%
+  \item \textbf{30 Cluster:} Varianza pari a 80.42 \% con una perdita del 0.58\% rispetto alla varianza post PCA di 81.004\%
+  \item \textbf{50 Cluster:}Varianza pari a 80.63 \% con una perdita del 0,374\% rispetto alla varianza post PCA di 81.004\%
+\end{itemize}
+Qui di seguito è presentato il dendrogramma, utile per comprendere quanta varianza si perda o si mantenga al variare del numero di cluster.
+
+%inserire dendogramma
+
+\subsection{PCA \& clustering con 5 componenti}
+Andando ad effettuare la clusterizzazione con 5 componenti principali, la quantità di varianza che varia in base al numero di cluster scelti è la seguente:
+\begin{itemize}
+  \item \textbf{5 Cluster:} Varianza pari a 59.02 \% con una perdita del 26,753\% rispetto alla varianza post PCA di 85.773\%
+  \item \textbf{30 Cluster:} Varianza pari a 84.92 \% con una perdita del 0,853\% rispetto alla varianza post PCA di 85.773\%
+  \item \textbf{50 Cluster:}Varianza pari a 85.32 \% con una perdita del 0,453\% rispetto alla varianza post PCA di 85.773\%
+\end{itemize}
+Qui di seguito è presentato il dendrogramma, utile per comprendere quanta varianza si perda o si mantenga al variare del numero di cluster.
+
+\subsection{PCA \& clustering con 6 componenti}
+Andando ad effettuare la clusterizzazione con 6 componenti principali, la quantità di varianza che varia in base al numero di cluster scelti è la seguente:
+\begin{itemize}
+  \item \textbf{5 Cluster:} Varianza pari a 56.66 \% con una perdita del 33,21\% rispetto alla varianza post PCA di 89.870\%
+  \item \textbf{30 Cluster:} Varianza pari a 87.45 \% con una perdita del 2,42\% rispetto alla varianza post PCA di 89.870\%
+  
+  \item \textbf{50 Cluster:}Varianza pari a 88.38 \% con una perdita del 1,49\% rispetto alla varianza post PCA di 89.870\%
+
+\end{itemize}
+Qui di seguito è presentato il dendrogramma, utile per comprendere quanta varianza si perda o si mantenga al variare del numero di cluster.
+
+\section{Conclusioni}
+Analizzando i valori del precedente paragrafo sintetizzati nei seguenti grafici \ref{fig:varianzaSpiegata} e \ref{fig:varianzaPersa}.
+Da questi possiamo decidere di selezionare 5 componenti principali e 30 cluster spiegando quindi l'84.92\% di varianza
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_2/Varianza.jpeg}
+    \caption{Varianza spiegata}
+    \label{fig:varianzaSpiegata}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_2/Loss.jpeg}
+    \caption{Varianza persa}
+    \label{fig:varianzaPersa}
+\end{figure}
+\section{Workload sintetico}
+Tramite l'analisi effettuata è stato possibile realizzare il workload sintetico seguendo le conclusioni di cui sopra. Da 24 colonne e 3000 righe possiamo disporre di un workload di 24 colonne e solamente 30 righe.
+Tale workload è mostrato nella figura \ref{fig:workload}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_2/Workload.png}
+    \caption{Workload sintetico}
+    \label{fig:workload}
+\end{figure}
