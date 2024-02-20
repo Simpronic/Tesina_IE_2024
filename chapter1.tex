@@ -80,6 +80,35 @@ Dalle analisi risulta che il sistema CPU presenta un bottleneck poichè il param
     \caption{Parametri CPU vmstat}
     \label{fig:bottleneck}
 \end{figure}
+\noindent
+Per provare la significatività dei risultati si è deciso di effettuare un DoE one factor con 3 ripetizioni in modo da stimare l'errore.\\
+Avendo raccolto i dati necessari è stato valutato il modello come si può osservare di seguito.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_1/DoEBottleneck.png}
+    \caption{Modello DoE Bottleneck}
+    \label{fig:doeBott}
+\end{figure}
+\noindent
+Come si può osservare dalla figura \ref{fig:doeBott} possiamo osservare che SSE = $\frac{1998,886}{11744,525}$ = 17\%.\\
+Inoltre si è proceduto ad una analisi di significativià.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_1/ResiduiNonNormali.png}
+    \includegraphics[scale=0.5]{img/chap_1/ShWiRes.png}
+    \caption{Normalita residui}
+    \label{fig:normRes}
+\end{figure}
+\noindent
+Come si può notare dalla figura \ref{fig:normRes} i residui non sono normali, dunque bisogna usare un test non parametrico come quello di Wilcoxon che dopo averlo effettuato ha dato il seguente risultato.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/chap_1/WilcoxonBottl.png}
+    \caption{Wilcoxon Bottleneck}
+    \label{fig:WilcoxBottl}
+\end{figure}
+\noindent
+Come è possibile osservare dal test in figura \ref{fig:WilcoxBottl} abbiamo una significatività statistica e non semplice casualità.
 \subsection{Indice di equità}
 Tamite Apache Jmeter è stato creato un tesplan con 3 thread-group che richiedono in modo concorrente allo stesso Web Server le 9 risorse disposte.\\
 Attraverso i CTT di questi thread group sono stati definiti i seguenti fair throughput:
@@ -357,7 +386,6 @@ Avremo dunque:
     $\frac{SS_{interaction}}{SST} = \frac{399000,8}{1787176,2}=22\% $
     
 \end{center}
-
 Da questa analisi possiamo ottenere una descrizione sull'importanza dei fattori nella risposta.\\
 Il fattore fondamentale come si può vedere è il \textit{page\_size} portando con se il 66\% della varianza complessiva.\\
 Inoltre è importante anche l'interazione che porta con se il 22\% della varianza.\\
