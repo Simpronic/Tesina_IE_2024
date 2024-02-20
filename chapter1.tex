@@ -72,21 +72,14 @@ Dai grafici ricavai individuiamo facilmente \textit{Knee Capacity} e \textit{Usa
 \subsection{Analisi Bottleneck}
 Durande la sottomissione delle richieste sono stati analizzati anche i parametri di basso livello del SUT attraverso il tool \textbf{vmstat} con il quale è stato possibile eseguire un analisi per individuare possibile bottleneck del sistema.\\
 Ricordiamo che il bottleneck si presenta quando la capacità di esecuzione di un applicazione o computer è limitata da un singolo componente. Il bottleneck è la parte che presenta il mior throughput di tutte le parti. 
-Anche in questa fase sono stati calcolati indici come media e coefficiente di variazione per definire se fosse meglio usare la media o la mediana.\\
-Dalle analisi risulta che il sistema Sy (che secondo la documentazione di vmstat rappresente il tempo passato in kernel mode) è quasi perennemente al 100\% e altri parametri legati alla CPU sono indicativi di un bottleneck in quel sottosistema come evidenziato dai seguenti grafici:
+Anche in questa fase sono stati calcolati indici come media e coefficiente di variazione per definire se fosse meglio usare la media o la mediana e dai dati raccolti si è ritenuto opportuno usare la media.\\
+Dalle analisi risulta che il sistema CPU presenta un bottleneck poichè il parametro \textbf{id}, che secondo la documentazione vmstat rappresenta la percentuale di tempo in idle, è quasi perennemente allo 0\% come dimostrato dal successivo grafico.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{img/chap_1/Bottleneck.png}
     \caption{Parametri CPU vmstat}
     \label{fig:bottleneck}
 \end{figure}
-Dove sempre secondo la documentazione vmstat i parametri rappresentati sono: 
-\begin{itemize}
-    \item \textbf{us}: \% Tempo passato eseguento in modalità non-kernel.
-    \item \textbf{sy}: \% Tempo passato eseguendo in modalità kenel 
-    \item \textbf{cs}: Numero di contex switch al secondo
-    \item \textbf{si}: Quantità di memoria scambiata con il disco 
-\end{itemize}
 \subsection{Indice di equità}
 Tamite Apache Jmeter è stato creato un tesplan con 3 thread-group che richiedono in modo concorrente allo stesso Web Server le 9 risorse disposte.\\
 Attraverso i CTT di questi thread group sono stati definiti i seguenti fair throughput:
