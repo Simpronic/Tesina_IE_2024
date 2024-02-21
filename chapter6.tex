@@ -1,1 +1,70 @@
 \chapter{FFDA}
+L'obiettivo della Field Failure Data Analysis(FFDA) è quello di ricavare delle misure di \textit{dependability} del sistema reale attraverso azioni di \textit{logging and collection, filtering and manipulation} e analisi di failure che si verificano durante la normale fase operativa del sistema.\\
+Questa tecnica measurement based è estremamente affidabile e consente un analisi dettagliata e precisa delle proprietà di un sistema, ma è molto costosa e difficilmente generalizzabile.\\
+In questo capitolo si descrive lo svolgimento di una \textbf{log-based FFDA} condotta su due sistemi:
+\begin{itemize}
+\item \textbf{Mercury}: situato presso il NCSA
+\item \textbf{BlueGene}: situato presso LLNL
+\end{itemize}
+\section{Analisi sistema Mecury}
+Il supercalcolatore Mercury è costituito da nodi IBM attraverso una architettura 3-layered + nodo di management.\\
+Su ogni nodo è installato un sistema \textbf{RedHat 9.0 OS} e i log sono stati raccolti attraverso \textbf{syslog deamon}.\\
+Si hanno a disposizione dei log già filtrati e deperametrizzati tramite whitelisting con dizionario che ammontano ad 80854 di severity \textbf{FATAL}.\\
+Ogni entry ha un formato pari a:
+\begin{center}
+timestamp - nodo - sottosistema originante - descrizione
+\end{center}
+Riportiamo di seguito le categorie di errore che ritroviamo nei log:
+\begin{itemize}
+\item \textbf{DEV}:  Platform PCI Component Error Info Section;
+\item \textbf{MEM}: MEM: Mem Error Detail: Physical Address *, Address Mask:*, Node:*, Card:*, Module: *, Bank:*, Device:*,Row:*,Column:*
+\item \textbf{NET}: Connection down
+\item \textbf{I-O}:  error, dev *:* (hda), sector *; hda: packet command error:
+\item \textbf{PRO}: BEGIN HARDWARE ERROR STATE AT CMC. 
+\end{itemize}
+In generale abbiamo 50 messaggi di errore univoci che hanno generato 80854 entry.
+\subsection{Analisi di alto livello del sistema}
+La prima analisi che si è svolta è una analisi di alto livello riguardo gli errori del sistema, quindi quale è il più frequente come errore e quale nodo ha la più alta frequenza di fault.\\
+In particolare si può notare, dalla figura \ref{fig:freqFaultNode} il nodo tg-c401 è quello che ha associato il più alto numero di errori con circa il 77\% di essi associati a questo nodo 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/FaultFreqNode.png}
+    \caption{Frequenza di faults per nodo}
+    \label{fig:freqFaultNode}
+\end{figure}
+\noindent
+Inoltre si è osservato anche, secondo il grafico \ref{fig:freqFauls} che la categoria più frequente è quella DEV con il 71\% di occorrenze.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/FaultFreq.png}
+    \caption{Frequenza di tipi faults}
+    \label{fig:freqFauls}
+\end{figure}
+\noindent
+Analizzando il grafico \ref{fig:freqFaultNode} si è deciso di analizzare il breakup delle entry per nodo e categoria solo per i primi 8 nodi presenti nel grafico.\\
+Si può notare dal grafico \ref{fig:freqFaulsTypeNode} che i nodi provenienti dallo stello layer esibiscono simili comportamenti di failure.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{img/chap_6/FaultTypeNodeFreq.png}
+    \caption{Frequenza di tipi faults per nodo}
+    \label{fig:freqFaulsTypeNode}
+\end{figure}
+\noindent
+Ad esempio i nodi computazionali tendono ad avere errori di tipo DEV e MEM, mentre i nodi di storage esibiscono errori di tipo I/O.\\
+Il nodo \textit{tg-master} è caratterizzato dall'occorrenza NET error probabilmente causati da errori di comunicazione con altri nodi.\\
+\subsection{Coalescenze window and content-based coalescence technique}
+L'analisi di coalescenza è una fase molto critica nell'analisi dei log poichè ha lo scopo di ricostruire il processo di fallimento del sistema raggruppando gli eventi scaturiti dalla stessa failure.\\
+Per effettuare tale analisi dobbiamo determinare una \textit{coalescence window}(cwin) per applicare una coalescenza temporale (\textbf{toupling}).\\
+Per determinare una cwin adeguata si è svolta una analisi di sensibilità sul numero di tuple generate in funzione della dimensione della finestra scelta.
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/cwin.png}
+    \caption{Cwin}
+    \label{fig:cwindow}
+\end{figure}
+\noindent
+Una finestra di coalescenza troppo piccola potrebbe produrre un fenomeno di \textbf{troncamento} (ovvero tuple contigue potrebbero contenere log associati alla stessa failure), una troppo grande invece provoca il fenomeno di \textbf{collissione} (una tupla contiene log appartenenti a diverse failure indipendenti), inducendo analisi di reliability pessimistiche o ottimistiche.\\
+In particolare una collisione potrebbe portare ad una analisi di reliability ottimistica, e dunque pericolosa, mentre dei troncamenti possono portare ad analisi di reliability pessimistiche.\\
+Per la scelta della cwin si è deciso di usare la regola empirica di scegliere un punto del ginocchio della curva riportata in figura \ref{fig:cwindow} che in tale caso è stato scelto come 160s, generando 594 tuple.\\
+Prima di proseguire però per la reliability empirica è stata svolta una analisi di bontà della scelta della coalescence window andando a valutare quelli che sono i presunti troncamenti e collisioni nelle tuple ottenute.\\
+
