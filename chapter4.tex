@@ -332,16 +332,9 @@ Per quanto riguarda questi RSS,ByteSent e ByteLetti, i grafici ci suggeriscono d
     \label{fig:residui}
 \end{figure}
 \noindent
-Gli outlier presenti sono relativi a dati di basso carico per cui trascurabili nella nostra analisi.
-In definitiva tutte e 3 le distribuzioni possono assumersi normali.
-Si analizza ora l'omoschedasticità dei residui andando ad analizzare i grafici a dispersione dei residui per verificarne l'assenza di trend.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/ByteLetti4.png}
-    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/ByteScritti4.png}
-    \caption{dispersione residui byte\_letti, byte\_$letti_01$}
-    \label{fig:residui_omoschedastici}
-\end{figure}
+Gli outlier presenti all'inizio sono relativi a dati di basso carico,però per byte_scritti e Byte_Letti 
+non si possono considerare lineari.
+Si analizza quindi l'omoschedasticità dei residui per RSS
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{img/chap_4/Os3/RSS4.png}
@@ -349,22 +342,10 @@ Si analizza ora l'omoschedasticità dei residui andando ad analizzare i grafici 
     \label{fig:residui_non_omoschedastici}
 \end{figure}
 \noindent
-Come si può vedere dalle figure 4.16 questi ultimi sono omoschedastici dunque posso fare affidamento sul test parametrico classico che
-restituisce i seguenti risultati:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/letti5.png}
-    \includegraphics[width=.35\textwidth]{img/chap_4/Os3/Scritti5.png}
-    \caption{test parametri byte\_letti, byte\_scritti}
-    \label{fig:residui_omoschedastici}
-\end{figure}
-\noindent
-Come si vede i parametri calcolati il test
-non riesce a rigettare l’ipotesi nulla sui coefficienti angolari. Ciò evidenzia l’assenza di un trend significativo sui byte letti e scritti.
-Invece in relazione alla figura 4.17 i residui non sono omoschedastici
+Come si può notare, i residui non sono omoschedastici
 dunque non possiamo usare un test parametrico come il t-test ma useremo anche qui il test di Mann-Kendall.
-Di seguito riportiamo i 3 risultati del test di Kendall:
+Di seguito riportiamo i 5 risultati del test di Kendall:
 \begin{table}[htbp]
     \centering
     \label{tab:esempio}
@@ -374,12 +355,14 @@ Di seguito riportiamo i 3 risultati del test di Kendall:
         \hline
         Time & VmSize & 0.7832 & <,0001\\
         Time & VmData & 0.7832 & <,0001\\
+        Time & letti & -0.0506 & <,0001\\
+        Time & scritti & -0.0171 & <,0.0841\\
         Time & RSS & 0.5938 & <,0001\\
         \hline
     \end{tabular}
 \end{table}
 \\
-Quindi la presenza di Trend è presente in tutti i parametri, in particolare il trend presente per RSS suggerisce il fatto che il sistema
+Quindi la presenza di Trend è presente in tutti i parametri eccetto che per byte letti e scritti. Particolare il trend è presente per RSS suggerisce il fatto che il sistema
 può raggiungere uno stato di saturazione della memoria poichè tale parametro rappresenta la porzione di memoria occupata da un processo
 che è mantenuta nella memoria principale.
 \section{Esercizio Predizioni}
