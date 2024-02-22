@@ -67,4 +67,50 @@ Una finestra di coalescenza troppo piccola potrebbe produrre un fenomeno di \tex
 In particolare una collisione potrebbe portare ad una analisi di reliability ottimistica, e dunque pericolosa, mentre dei troncamenti possono portare ad analisi di reliability pessimistiche.\\
 Per la scelta della cwin si è deciso di usare la regola empirica di scegliere un punto del ginocchio della curva riportata in figura \ref{fig:cwindow} che in tale caso è stato scelto come 160s, generando 594 tuple.\\
 Prima di proseguire però per la reliability empirica è stata svolta una analisi di bontà della scelta della coalescence window andando a valutare quelli che sono i presunti troncamenti e collisioni nelle tuple ottenute.\\
-
+\section{BlueGene}
+\subsection{Overview}
+Blue Gene è un tipo di architettura con l'obbiettivo di realizzare dei supercomputer con potenze di calcolo che vanno dalle decine di teraFLOPS per arrivare fino ai petaFLOPS con un consumo energetico relativamente basso.
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene1.png}
+	\caption{BlueGene Sample diagram}
+	\label{fig:BlueGeneSamplediagram}
+\end{figure}
+\noindent
+Si hanno una serie di nodi disposti in 64 rack e catalogati in base a \textbf{midplane}, \textbf{compute card} e \textbf{compute chip}
+Per quanto riguarda i dati a disposizione dei file log, si hanno a disposizione 125624 fatal log entry.
+Il formato dei log è confrontabile con quello dei log del sistema analizzato precedentemente.
+Si hanno infatti time-stamp, originating node, originating card, test-free message.
+Si riporti brevemente, prima di procedere con analisi successive, le distribuzioni di  failure registrate e riportate nel log file nel tempo.
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene2.png}
+	\caption{BlueGene failure distribution}
+	\label{fig:Bg failure distr}
+\end{figure}
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene3.png}
+	\caption{BlueGene failure entry distribution per singolo nodo}
+	\label{fig:Bg failure distr sing nod}
+\end{figure}
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene4.png}
+	\caption{BlueGene failure entry distribution per singola computation card}
+	\label{fig:Bg failure distr sing comp card}
+\end{figure}
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene5.png}
+	\caption{BlueGene failure entry distribution per singola computation chip}
+	\label{fig:Bg failure distr sing comp chip}
+\end{figure}
+\noindent
+E' possibile osservare da questi grafici che, a differenza del sistema precedente, le entry failure sono più omogenee nel tempo, non essendoci dei picchi di failure per un tempo specifico di periodi operativi del sistema.
+Dal grafico dei nodi \ref{fig:Bg failure distr sing nod} si nota che non ci sono nodi del sistema che causano una percentuale significativa dei guasti.
+Infatti, le failure sono generate dai 700 nodi presenti nel file log preso in considerazione.
+Nella figura successiva, \ref{fig:Bg failure distr sing comp card} è possibile vedere le entry per ogni card. 
+Questa distribuzione mostra come i fallimenti maggiori sono relativi alle card in posizione multipla di quattro. Infatti, cumulativamente raggiungono circa l'85\% del totale dei fallimenti
+Infine, nell'ultima figura \ref{fig:Bg failure distr sing comp chip} si riporta il grafico relativo alle failure in funzione dei chip.
+Qui è possibile visionare invece, a differenza dei nodi, che per i chip \textit{J18-U11} e \textit{J18-U01} è presente la maggior parte  dei failure, a tal punto che cumulativamente, entrambi i chip raggiungono quasi l'80\% di tutte le failure presenti.
