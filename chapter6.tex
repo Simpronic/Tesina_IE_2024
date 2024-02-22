@@ -67,6 +67,88 @@ Una finestra di coalescenza troppo piccola potrebbe produrre un fenomeno di \tex
 In particolare una collisione potrebbe portare ad una analisi di reliability ottimistica, e dunque pericolosa, mentre dei troncamenti possono portare ad analisi di reliability pessimistiche.\\
 Per la scelta della cwin si è deciso di usare la regola empirica di scegliere un punto del ginocchio della curva riportata in figura \ref{fig:cwindow} che in tale caso è stato scelto come 160s, generando 594 tuple.\\
 Prima di proseguire però per la reliability empirica è stata svolta una analisi di bontà della scelta della coalescence window andando a valutare quelli che sono i presunti troncamenti e collisioni nelle tuple ottenute.\\
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/Analisi_troncamenti_e_collisioni.png}
+    \caption{Estratto da Analisi troncamenti e collisioni}
+    \label{fig:AnalTroncCollision}
+\end{figure}
+\noindent
+Le statistiche riportate in figura (che sono però un estratto) hanno permesso di calcolare una percentuale di tuple con troncamento rispetto a quelle totali.\\
+Si è supposto di essere in presenza di troncamenti al verificarsi delle seguenti condizioni:
+\begin{itemize}
+\item Valore di interarrivo prossimo al valore della cwin 
+\item Tuple caratterizzati da nodi contigui con fallimenti degli stessi sottosistemi
+\end{itemize}
+Con le condizioni sopra citate abbiamo una percentuale del 17.2\% di troncamenti.\\
+Per migliorare tale percentuale si è deciso di effettuare una strategia di coalescenza non sono di tipo \textbf{time} ma anche \textbf{content-based}, ovvero una entry viene inserita in una tupla se rispetta il vincolo della finsetra o, se non rispetta il vincolo della finestra , rispetta il vincolo della finestra doppia e il nodo ed il componente interessato sono gli stessi dell'ultimo log inserito nella tupla.\\
+Ripetendo il tupling con la precedente osservazione avrò 528 tuple con un tasso di troncamento del 10\% usando sempre una cwin di 160s.\\
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/Analisi_troncamenti_e_collisioni_2.png}
+    \caption{Estratto da Analisi troncamenti e collisioni 2}
+    \label{fig:AnalTroncCollision2}
+\end{figure}
+\noindent
+\subsection{Reliability model}
+Definito il valore di coalescence window che è stato ritenuto adeguato. sfruttando i tempi di interarrivo delle tuple, si può realizzare un grafico empirico della reliability del modello nel suo complesso.\\
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/EmpRel_Mercuty.png}
+    \caption{Reliability empirica}
+    \label{fig:empRel}
+\end{figure}
+\noindent
+Il passo successivo è quello di inferire un modello di reliability regressivo (non lineare) dai dati sperimentali che è solo ai fini di fitting.\\
+Di seguito riportiamo i modelli inferiti con i loro parametri.\\
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/rel_exp.png}
+     \includegraphics[scale=0.4]{img/chap_6/res_exp.png}
+    \caption{Fitting esponenziale}
+    \label{fig:fitexp}
+\end{figure}
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/rel_hyp_exp.png}
+     \includegraphics[scale=0.4]{img/chap_6/res_hyp_exp.png}
+    \caption{Fitting iper-esponenziale}
+    \label{fig:fithypexp}
+\end{figure}
+ \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/fit_stats.png}
+    \caption{Statistiche}
+    \label{fig:stats}
+\end{figure}
+\noindent
+Come si può leggere dalle figure sono stati scelti due fitting che sono molto accurati rispetto ai dati in nostro possesso.\\
+Di seguito riportiamo i due tipi di fitting:
+\begin{center}
+$exp(t) = ae^{bt}$ \\
+$hypExp(t) = ae^{bt} + ce^{dt}$
+\end{center}
+Come è osservabile dalla tabella \ref{fig:stats} il modello più preciso è quello iper-esponenziale per descrivere l'andamento della reliability del sistema.\\
+Per verificare la significatività del modello si è poi applicato un test non parametrico di tipo Kolmogorov-Smirnov, ottenendo i seguenti risultati.\\
+\begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Modello & $R^2$ & $p-value$ \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        Esponenziale & 0.947 &  7.4306e-06\\
+        Iper-esponenziale & 0.995 &  0.6872\\
+        \hline
+    \end{tabular}
+\end{table}
+\noindent
+Dalla precedente possiamo notare che il test rigetta l'ipotesi nulla con una confidenza del 95\% per il modello esponenziale, mentre invece rigetta l'ipotesi nulla per un modello iper-esponenziale.\\
+Si può infine calcolare l'MTTF del sistema usando l'integrazione, ovvero:
+\begin{center}
+$MTTF_{sys} = \int_{0}^{\infty} R(t) dt = 1.0271s$
+\end{center}
+\subsection{Analisi dei nodi}
 \section{BlueGene}
 \subsection{Overview}
 Blue Gene è un tipo di architettura con l'obbiettivo di realizzare dei supercomputer con potenze di calcolo che vanno dalle decine di teraFLOPS per arrivare fino ai petaFLOPS con un consumo energetico relativamente basso.
