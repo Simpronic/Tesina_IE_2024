@@ -196,3 +196,62 @@ Nella figura successiva, \ref{fig:Bg failure distr sing comp card} è possibile 
 Questa distribuzione mostra come i fallimenti maggiori sono relativi alle card in posizione multipla di quattro. Infatti, cumulativamente raggiungono circa l'85\% del totale dei fallimenti
 Infine, nell'ultima figura \ref{fig:Bg failure distr sing comp chip} si riporta il grafico relativo alle failure in funzione dei chip.
 Qui è possibile visionare invece, a differenza dei nodi, che per i chip \textit{J18-U11} e \textit{J18-U01} è presente la maggior parte  dei failure, a tal punto che cumulativamente, entrambi i chip raggiungono quasi l'80\% di tutte le failure presenti.
+\subsection{Coalescence window}
+Per la coalescence window e per la sua size e per la scelta dell'euristica del tuplig, sono stati eseguiti gli stessi criteri fatti per il sistema Mercury.
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene6.png}
+	\caption{BlueGene failure analisi di sensitività}
+	\label{fig:BlueGene failure analisi di sensitività}
+\end{figure}
+\noindent
+Il raggruppamento delle tuple è stato effettuato tramite lo script basato sull'approccio time content based e come window size è stato scelto un tempo t pari a 230s, ottenendo 396 tuple.
+\subsection{Reliability model}
+Con i tempi di interarrivo delle tuple è stato possibile costruire un grafico di reliability empirico per il sistema in esame
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene7.png}
+	\caption{BlueGene reliability modello empirico}
+	\label{fig:BlueGene reliability}
+\end{figure}
+\noindent
+Successivamente, tramite l'utilizzo del tool curve fitter, è stato possibile costruire un modello di reliability regressivo dai dati sperimentali.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene8.png}
+	\caption{BlueGene reliability modello di reliability regressivo esponenziale}
+	\label{fig:BlueGene reliability esponenziale}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene9.png}
+	\caption{BlueGene reliability modello di reliability regressivo iper-esponenziale}
+	\label{fig:BlueGene reliability iper-esponenziale}
+\end{figure}
+\noindent
+Di seguito invece la tabella relativa ai due grafici riportati 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene10.png}
+	\caption{BlueGene reliability Tabella dei modelli}
+	\label{fig:BlueGene reliability tabella}
+\end{figure}
+\noindent
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene11.png}
+	\caption{BlueGene reliability Tabella dei modelli - exp}
+	\label{fig:BlueGene reliability tabella exp}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{img/chap_6/BlueGene12.png}
+	\caption{BlueGene reliability Tabella dei modelli - hyp\_exp }
+	\label{fig:BlueGene reliability tabella hexp}
+\end{figure}
+\noindent
+Come si può osservare dal valore $R^2$  restituitoci dal modello regressivo, il modello iper esponenziale descrive in maniera più efficiente i dati empirici.
+Il test di \textit{Kolmogorov-Smirnov} fallisce nel rigettare l'ipotesi nulla in questo caso, confermando la significatività del modello con un p-value dello 0,89\%.
+Il MTTF del sistema sarà:
+$\\$
+$MTTF_{sys} = \int_{0}^{\infty} R(t) dt = 18.252s$
