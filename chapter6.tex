@@ -246,7 +246,7 @@ Dopo questa analisi si è proceduto alla derivazione della reliability empirica 
 \end{figure}
 \noindent
 Per i nodi tg-c572, tg-c648 e tg-login3 non è stato possibile calcolare la reliability empirica poichè provvisti di poche tuple.\\
-Di seguito riportiamo una tabella riassuntiva dei risultati del test non parametrico di Kolmogorov-Smirnov.
+Di seguito riportiamo una tabella riassuntiva dei risultati del test non parametrico di Kolmogorov-Smirnov.\\
  \begin{table}[htbp]
     \centering
     \label{tab:esempio}
@@ -261,9 +261,17 @@ Di seguito riportiamo una tabella riassuntiva dei risultati del test non paramet
         tg-c669 & esponenziale & 0.9950 \\
         \hline
     \end{tabular}
-\end{table}
+\end{table}\\
+In ultima analisi si è deciso di confrontare le varie reliability dei componenti in modo da identificare un eventuale reliability bottleneck.\\
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{img/chap_6/RelComp.png}
+	\caption{Grafico comparativo reliability}
+	\label{fig:SuntoReliab}
+\end{figure}
 \noindent
-
+Come apprezzabile dal grafico \ref{fig:SuntoReliab} ovviamente il sistema ha la reliability più bassa, ma il vero bottleneck della reliability è il nodo tg-c401 che, in rapporto con le sue entry presenta una reliability minore rispetto agli altri.\\
+Dal grafico può risultare il nodo tg-c242 ad essere il bottleneck ma per tale nodo disponiamo di molti meno elementi del tg-c401 per cui abbiamo decidere di considerare quest'ultimo il vero bottleneck.
 \section{BlueGene}
 \subsection{Overview}
 Blue Gene è un tipo di architettura con l'obbiettivo di realizzare dei supercomputer con potenze di calcolo che vanno dalle decine di teraFLOPS per arrivare fino ai petaFLOPS con un consumo energetico relativamente basso.
@@ -370,3 +378,13 @@ Il test di \textit{Kolmogorov-Smirnov} fallisce nel rigettare l'ipotesi nulla in
 Il MTTF del sistema sarà:
 $\\$
 $MTTF_{sys} = \int_{0}^{\infty} R(t) dt = 18.252s$
+\section{Confronto sistemi}
+Dalle analisi svolte e dai valori di MTTF calcolati, all'infinito il sistema Blue Gene/L risulta essere più reliable di Mercury, però si è deciso comunque di fare una analisi grafica per individuare se eventualmente per un certo mission time non fosse valida tale ipotesi.\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{img/chap_6/SystemTest.jpeg}
+	\caption{Confronto sistemi}
+	\label{fig:SystemTesing}
+\end{figure}
+\noindent
+Dal grafico riportato si può notare che in definitiva, per le reliability empiriche calcolate il sistema Blue Gene/L è più reliable per ogni valore di \textit{mission time}
