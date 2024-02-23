@@ -1,3 +1,4 @@
+
 \chapter{FFDA}
 L'obiettivo della Field Failure Data Analysis(FFDA) è quello di ricavare delle misure di \textit{dependability} del sistema reale attraverso azioni di \textit{logging and collection, filtering and manipulation} e analisi di failure che si verificano durante la normale fase operativa del sistema.\\
 Questa tecnica measurement based è estremamente affidabile e consente un analisi dettagliata e precisa delle proprietà di un sistema, ma è molto costosa e difficilmente generalizzabile.\\
@@ -149,6 +150,120 @@ Si può infine calcolare l'MTTF del sistema usando l'integrazione, ovvero:
 $MTTF_{sys} = \int_{0}^{\infty} R(t) dt = 1.0271s$
 \end{center}
 \subsection{Analisi dei nodi}
+Definita la misura di reliability del sistema si è pensato di analizzare i singoli nodi andando a valutare il numero di failure per nodo.\\
+Per fare ciò si è filtrato il file di log in base ai nodi in esame che sono stati i primi 8 che davano più contributo alle failure.\\
+Dopo aver filtrato si è proceduto ad effettuare una analisi per la cwin per ogni sistema che riportiamo di seguito.\\
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c117_cwin.png}
+        \caption{tg-c117}
+        \label{fig:tgc117}
+    \end{subfigure}
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c238_cwin.png}
+        \caption{tg-c238}
+        \label{fig:tgc238}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c242_cwin.png}
+        \caption{tg-c242}
+        \label{fig:tgc242}
+    \end{subfigure}
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c401_cwin.png}
+        \caption{tg-c401}
+        \label{fig:tgc401}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c572_cwin.png}
+        \caption{tg-c572}
+        \label{fig:tgc572}
+    \end{subfigure}
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c648_cwin.png}
+        \caption{tg-c648}
+        \label{fig:tgc648}
+    \end{subfigure}
+\end{figure}
+\begin{figure}[H]
+    \centering
+     \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-c669_cwin.png}
+        \caption{tg-c669}
+        \label{fig:tgc669}
+    \end{subfigure}
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{img/chap_6/tg-login3_cwin.png}
+        \caption{tg-login3}
+        \label{fig:tglogin3}
+    \end{subfigure}
+\end{figure}
+\noindent
+Per ogni modello è stato scelto un calore di coalescence window in corrispondenza della curva corrispondente.\\
+Dunque avremo la seguente tabella:
+ \begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Node & Cwin  \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        tg-c117 & 800 \\
+        tg-c238 & 120 \\
+        tg-c242 & 210 \\
+        tg-c401 & 230 \\
+        tg-c572 & 800 \\
+        tg-c648 & 800 \\
+        tg-c669 & 150 \\
+        tg-login3 & 190\\
+        sistema & 160\\
+        \hline
+    \end{tabular}
+\end{table}
+\noindent
+Come si può vedere dalla tabella solo il nodo tg-c401 è confrontabile con la finestra del sistema poichè è quella più influente per quest'ultimo.\\
+Dopo questa analisi si è proceduto alla derivazione della reliability empirica per ogni nodo e ne sono stati stimati i parametri, di seguito si riportano i parametri ricavati tramite curve fitter.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{img/chap_6/EmpRelStats.png}
+    \caption{Statistiche di fitting per la reliabilty}
+    \label{fig:StatsempRel}
+\end{figure}
+\noindent
+Per i nodi tg-c572, tg-c648 e tg-login3 non è stato possibile calcolare la reliability empirica poichè provvisti di poche tuple.\\
+Di seguito riportiamo una tabella riassuntiva dei risultati del test non parametrico di Kolmogorov-Smirnov.
+ \begin{table}[htbp]
+    \centering
+    \label{tab:esempio}
+    \begin{tabular}{|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
+        \hline
+        Node & Modello &p-value \\ % separa le celle con '&', e termina ogni riga con '\\'
+        \hline
+        tg-c117 & iper-esponenziale & 0.995 \\
+        tg-c238 & iper-esponenziale & 0.999 \\
+        tg-c242 & iper-esponenziale & 0.993 \\
+        tg-c401 & iper-esponenziale & 0.6759 \\
+        tg-c669 & esponenziale & 0.9950 \\
+        \hline
+    \end{tabular}
+\end{table}
+\noindent
+
 \section{BlueGene}
 \subsection{Overview}
 Blue Gene è un tipo di architettura con l'obbiettivo di realizzare dei supercomputer con potenze di calcolo che vanno dalle decine di teraFLOPS per arrivare fino ai petaFLOPS con un consumo energetico relativamente basso.
