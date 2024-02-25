@@ -49,10 +49,10 @@ Si procede ora alla visualizzazione dell’omoschedasticità dei residui e per f
     \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/ByteSent5.png}
     \includegraphics[width=.35\textwidth]{img/chap_4/Mail_server_1/byteRic5.png}
     \caption{dispersione residui Nmail, byte\_inviati, byte\_rec, }
-    \label{fig:residui_omoschedastici}
+    \label{fig:residui_omoschedastici1}
 \end{figure}
 \noindent
-Come si può vedere dalle figure 4.3 questi ultimi sono omoschedas-
+Come si può vedere dalle \ref{fig:residui_omoschedastici1} questi ultimi sono omoschedas-
 tici dunque posso fare affidamento sul test parametrico classico che
 restituisce i seguenti risultati:
 
@@ -185,20 +185,20 @@ Ora devo analizzare l'omoschedasticità dei residui, per fare questo analizzo i 
     \centering
     \includegraphics[scale=0.4]{img/chap_4/Os1/disp_res_rss.png}
     \caption{Dispersione residui RSS}
-    \label{fig:residui_non_omoschedastici}
+    \label{fig:residui_non_omoschedastici2}
 \end{figure}
 \noindent
-Come si può vedere dalle figure \ref{fig:residui_omoschedastici} questi ultimi sono omoschedastici dunque posso fare affidamento sul test parametrico classico che restituisce i seguenti risultati:
+Come si può vedere dalle figure \ref{fig:residui_omoschedastici2} questi ultimi sono omoschedastici dunque posso fare affidamento sul test parametrico classico che restituisce i seguenti risultati:
 \begin{figure}[H]
     \centering
     \includegraphics[width=.35\textwidth]{img/chap_4/Os1/parametri_byteletti.png}
     \includegraphics[width=.35\textwidth]{img/chap_4/Os1/parametri_byteletti_01.png}
     \caption{test parametri byte\_letti, byte\_letti\_01}
-    \label{fig:residui_omoschedastici}
+    \label{fig:residui_omoschedastici12}
 \end{figure}
 \noindent
 Come si vede i parametri calcolati sono significativi per il parametro \textit{byte\_letti} perchè il test rigetta l'ipotesi nulla (che l'intervallo di confidenza contenga lo 0) per il coefficiente angolare che indica la presenza di un trend significativo, invece per il parametro \textit{byte\_letti01} il test non riesce a rigettare l'ipotesi nulla sul coefficiente angolare che evidenzia l'assenza di un trend significativo.\\
-Invece in relazione alla figura \ref{fig:residui_non_omoschedastici} i residui non sono omoschedastici dunque non possiamo usare un test parametrico come il t-test ma useremo anche qui il test di Mann-Kendall.\\
+Invece in relazione alla figura \ref{fig:residui_non_omoschedastici12} i residui non sono omoschedastici dunque non possiamo usare un test parametrico come il t-test ma useremo anche qui il test di Mann-Kendall.\\
 Di seguito riportiamo i 3 risultati del test di Kendall:
 \begin{table}[htbp]
     \centering
@@ -261,18 +261,18 @@ Per ByteLetti e ByteScritti dobbiamo verificare l'omoschedasticità dei residui.
     \centering
     \includegraphics[scale=0.4]{img/chap_4/Os2/residui_disp_bletti.png}
     \caption{Dispersione residui Byte letti }
-    \label{fig:residui_non_omoschedastici}
+    \label{fig:residui_non_omoschedastici4}
 \end{figure}
 \noindent
-Dalla figura \ref{fig:residui_non_omoschedastici} si può notare la non omoschedasticità dei residui quindi non possiamo rifarci al classico t-test e dunque bisogna procedere con il test di Mann-Kendall.
+Dalla figura \ref{fig:residui_non_omoschedastici4} si può notare la non omoschedasticità dei residui quindi non possiamo rifarci al classico t-test e dunque bisogna procedere con il test di Mann-Kendall.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{img/chap_4/Os2/disp_residui_b_scritti.png}
     \caption{Dispersione residui Byte scritti }
-    \label{fig:residui_omoschedastici}
+    \label{fig:residui_omoschedastici5}
 \end{figure}
 \noindent
-In riferimento alla figura \ref{fig:residui_omoschedastici} si può notare invece l'omoschedasticità dei residui quindi in questo caso possiamo rifarci al t-test classico, tale test restituisce il seguente risultato:
+In riferimento alla figura \ref{fig:residui_omoschedastici5} si può notare invece l'omoschedasticità dei residui quindi in questo caso possiamo rifarci al t-test classico, tale test restituisce il seguente risultato:
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{img/chap_4/Os2/test_bscritti.png}
@@ -375,21 +375,21 @@ Per questo primo dataset è stata effettuata una stima lineare che è possibile 
     \centering
     \includegraphics[scale=0.3]{img/chap_4/vmRes1/Stim_lin_VmRes.png}
     \caption{Stima lineare allocated heap}
-    \label{fig:stim_lin_VmRes1}
+    \label{fig:stim_lin_VmRes11}
 \end{figure}
 \noindent
-Dalla figura \ref{fig:stim_lin_VmRes1} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
+Dalla figura \ref{fig:stim_lin_VmRes11} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
 E' stata effettuata anche una analisi di normalità dei residui
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{img/chap_4/vmRes1/qq_plot_VMres.png}
     \caption{qq-plot residui heap}
-    \label{fig:qq_plot_VmRes1}
+    \label{fig:qq_plot_VmRes12}
 \end{figure}
-Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
+Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes12} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
 \begin{table}[htbp]
     \centering
-    \label{tab:Mann-kendall}
+    \label{tab:Mann-kendall4}
     \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
         \hline
         Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
@@ -399,14 +399,14 @@ Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi no
     \end{tabular}
 \end{table}
 \\
-Come si può vedere dalla tabella \ref{tab:Mann-kendall} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
+Come si può vedere dalla tabella \ref{tab:Mann-kendall4} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
 Per le suddette stime si fa uso della procedura di Theil-Sen che ci restituisce la seguente espressione:
 \begin{center}
    AllocatedHeap(t) = $0.69t + 6.5*10^6$
-   \label{eq:alloc_heap}
+   \label{eq:alloc_heap4}
 \end{center}
 Tale espressione ha come valore di coefficiente angolare una confidenza del 95\% e un intervallo di confidenza pari a [0.564,0.818].\\
-Dall'equazione \ref{eq:alloc_heap} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
+Dall'equazione \ref{eq:alloc_heap4} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
 \begin{center}
     $
     10^9 = 0.69t+6.5*10^6
@@ -425,21 +425,21 @@ Per questo secondo dataset è stata effettuata una stima lineare che è possibil
     \centering
     \includegraphics[scale=0.3]{img/chap_4/vmRes2/Res1.png}
     \caption{Stima lineare allocated heap}
-    \label{fig:stim_lin_VmRes1}
+    \label{fig:stim_lin_VmRes13}
 \end{figure}
 \noindent
-Dalla figura \ref{fig:stim_lin_VmRes1} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
+Dalla figura \ref{fig:stim_lin_VmRes13} si può notare che il modello lineare non si adatta bene ai dati, ipotesi che è avvalorata anche dal basso valore di $R^2$ ed $R^2$ corretto.
 E' stata effettuata anche una analisi di normalità dei residui
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{img/chap_4/vmRes2/Res2.png}
     \caption{qq-plot residui heap}
-    \label{fig:qq_plot_VmRes1}
+    \label{fig:qq_plot_VmRes14}
 \end{figure}
-Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
+Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes14} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
 \begin{table}[htbp]
     \centering
-    \label{tab:Mann-kendall}
+    \label{tab:Mann-kendall5}
     \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
         \hline
         Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
@@ -449,14 +449,14 @@ Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes1} questi ultimi no
     \end{tabular}
 \end{table}
 \\
-Come si può vedere dalla tabella \ref{tab:Mann-kendall} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
+Come si può vedere dalla tabella \ref{tab:Mann-kendall5} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
 Per le suddette stime si fa uso della procedura di Theil-Sen che ci restituisce la seguente espressione:
 \begin{center}
    AllocatedHeap(t) = $0.67t + 5.7*10^6$
-   \label{eq:alloc_heap}
+   \label{eq:alloc_heap11}
 \end{center}
 Tale espressione ha come valore di coefficiente angolare una confidenza del 95\% e un intervallo di confidenza pari a [0.605,0.737].\\
-Dall'equazione \ref{eq:alloc_heap} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
+Dall'equazione \ref{eq:alloc_heap11} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
 \begin{center}
     $
     10^9 = 0.67t+5.7*10^6
@@ -508,11 +508,11 @@ Tale espressione ha come valore di coefficiente angolare una confidenza del 95\%
 Dall'equazione \ref{eq:alloc_heap} possiamo calcolare il tempo di saturazione risolvendo la sequente equazione(dove l'heap inizia a saturarsi):
 \begin{center}
     $
-    10^9 = 2.90t+5.7*10^6
+    10^9 = 2.90t+6.0*10^6
     $\\
 \end{center}
 Da cui 
 \begin{center}
     $
-    t \approx 0.01$ anni
+    t \approx 10.77$ anni
 \end{center}
