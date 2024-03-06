@@ -276,12 +276,11 @@ In riferimento alla figura \ref{fig:residui_omoschedastici5} si può notare inve
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{img/chap_4/Os2/test_bscritti.png}
-    \includegraphics[scale=0.4]{img/chap_4/Os2/test_rss.png}
-    \caption{Test parametri per byte scritti ed Rss}
+    \caption{Test parametri per byte scritti}
     \label{fig:test_bscritti}
 \end{figure}
 \noindent
-Il test a sinistra di figura \ref{fig:test_bscritti} non rigetta l'ipotesi nulla riguardo la pendenza indicando quindi l'assenza di trend significativi riguardo questo parametro mentre invece per il test a destra rileviamo un trend con parametri statisticamente significativi.\\
+Il test a sinistra di figura \ref{fig:test_bscritti} non rigetta l'ipotesi nulla riguardo la pendenza indicando quindi l'assenza di trend significativi riguardo questo parametro.\\
 Di seguito invece sono riportati i risultati dei test non parametrici.
 \begin{table}[htbp]
     \centering
@@ -293,11 +292,13 @@ Di seguito invece sono riportati i risultati dei test non parametrici.
         Time & VmSize & 0.7065 & <,0001\\
         Time & VmData & 0.7065 & <,0001\\
         Time & RSS & 0.1788 & <,0001\\
+        Time & byteLetti & 0.6259 & <,0001\\
         \hline
     \end{tabular}
 \end{table} \\
-Come si può osservare tutti e tre i test rigettano l'ipotesi nulla indicandoci la presenza di un trend nei dati.\\
-Per avere una stima più precisa del coefficiente si è proceduto ad applicare la procedura si Sen che ha restituito per Rss slope 0.00063 intercetta 42384.85 e intervallo al 95\% pari a [0.001,0.0007], per VmSize e VmData invece per il primo slope 0.00191 intercetta 735790.37 con intervallo [0.0,0.002] e per il secondo slope 0.0019 intercetta 667414.37 e intervallo [0.0,0.002].
+Come si può osservare tutti e quattro i test rigettano l'ipotesi nulla indicandoci la presenza di un trend nei dati.\\
+Per avere una stima più precisa del coefficiente si è proceduto ad applicare la procedura si Sen che ha restituito per Rss slope 0.00063 intercetta 42384.85 e intervallo al 95\% pari a [0.001,0.0007], per VmSize e VmData invece per il primo slope 0.00191 intercetta 735790.37 con intervallo [0.0,0.002] e per il secondo slope 0.0019 intercetta 667414.37 e intervallo [0.0,0.002].\\
+Invece applicando la procedura di Sen per byteLetti si è ottenuto 114.553 come slope e 77733384.24 intercetta con un intervallo di confidenza la 95\% pari a [112.733 , 116.376] per la slope.
 \newpage
 \subsection{VMStat-os3}
 Di seguito sono riportati i grafici delle analisi dei modelli lineari appli-

@@ -9,7 +9,7 @@ Analizzare le performance di un web server Apache, effettuando le seguenti attiv
 \section{Capacity Test}
 Tale test è utile poichè ci permette di trovare il punto di funzionamento ideal del SUT (system under test), infatti, in generale un sistema non scala linearmente la sua performance all'aumentare del carico.\\
 Il SUT è un sistema che si intende testare attraverso un carico o uno stimolo.
-Nel nostro caso il SUT è un Web Server apache esewguito su ambiente Ubuntu in macchina virtuale Oracle VM VirtualBox.\\
+Nel nostro caso il SUT è un Web Server apache eseguito su ambiente Ubuntu in macchina virtuale Oracle VM VirtualBox.\\
 La VM non esegue bare metal ma è ospitata da un sistema MacOs che concede alla VM le seguenti risorse:
 \begin{itemize}
     \item CPU: 1 Intel Core i5 2,4 GHz.
@@ -171,15 +171,16 @@ I dati sono stati collezionati tramite un Simple Data Writer e analizzati tramit
 Lato server, i parametri sono stati raccolti tramite il tool vmstat e anche loro analizzati con JMP.
 \subsection{HL Workload Characterization}
 I dati di alto livello raccolti sono stati importati su JMP ed è stata fatta una prima analisi su media e deviazione standard dei prametri.\\
-Di seguito riportiamo la taberlla riassuntiva:
+Di seguito riportiamo la tabella riassuntiva:
+
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{img/chap_1/DistParam_hl.png}
-    \caption{Tabella statistiche}
-    \label{fig:stats_hl}
+    \includegraphics[scale=0.6]{img/chap_1/AnalisiMediaVarianza.png}
+    \caption{Analisi di media e varianza}
+    \label{fig:m_vanal}
 \end{figure}
 \noindent
-Come è possibile osservare dalla tabella \ref{fig:stats_hl} sia \textbf{Sample Count} che \textbf{Error Count} possono essere non considerate come colonne.\\
+Come è possibile osservare dalla tabella \ref{fig:m_vanal} sia \textbf{Sample Count} che \textbf{Error Count} possono essere non considerate come colonne.\\
 Una seconda analisi ha interessato le righe.\\
 In particolare si è analizzata la presenza o meno di outliers solo per le colonne ritenute utili per l'analisi.\\
 \begin{figure}[H]
@@ -396,13 +397,13 @@ Ricordiamo che la \textbf{significatività} ci dice che quello che abbiamo osser
 Per determinare quale tipo di ANOVA si è condotta una analisi sulla distribuzione dei residui, ovvero attraverso un QQ-plot si è verificato che questi residui siano normali.\\
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{img/chap_1/res_norm.png}
+    \includegraphics[scale=0.3]{img/chap_1/res_norm.png}
     \caption{qq-plot residui}
     \label{fig:qq_res_plot}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{img/chap_1/shwk.png}
+    \includegraphics[scale=0.3]{img/chap_1/shwk.png}
     \caption{Test di Shapiro-Wilk}
     \label{fig:shapWilk}
 \end{figure}
