@@ -440,7 +440,6 @@ E' stata effettuata anche una analisi di normalità dei residui
 Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes14} questi ultimi non sono normali, dunque si deve procedere a test non parametrico, come Mann-Kendall, per definire se è presente o meno un trend.\\
 \begin{table}[htbp]
     \centering
-    \label{tab:Mann-kendall5}
     \begin{tabular}{|c|c|c|c|} % specifica il numero e l'allineamento delle colonne (c = centrato, l = sinistra, r = destra)
         \hline
         Variabile & Variabile by & $\tau$ di Kendall &Prob > |$\tau$| \\ % separa le celle con '&', e termina ogni riga con '\\'
@@ -450,7 +449,7 @@ Ma da come si può notare dalla figura \ref{fig:qq_plot_VmRes14} questi ultimi n
     \end{tabular}
 \end{table}
 \\
-Come si può vedere dalla tabella \ref{tab:Mann-kendall5} l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
+Come si può vedere dalla precedente tabella l'ipotesi nulla è rigettata dimostrando la presenza di un trend nei dati, per effettuare la predizione però ci servono le stime di coefficiente ed intercetta.\\
 Per le suddette stime si fa uso della procedura di Theil-Sen che ci restituisce la seguente espressione:
 \begin{center}
    AllocatedHeap(t) = $0.67t + 5.7*10^6$
